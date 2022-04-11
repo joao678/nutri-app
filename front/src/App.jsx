@@ -5,9 +5,7 @@ import {
     IonRouterOutlet,
     IonTabBar,
     IonTabButton,
-    IonTabs,
-    RouteManagerContext,
-    setupIonicReact
+    IonTabs, setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
@@ -25,15 +23,14 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/typography.css';
 import { home, serverOutline } from 'ionicons/icons';
 import { useState } from 'react';
-import { Redirect, Route, Router } from 'react-router';
 import BaseRoutes from './components/Routes/BaseRoutes';
-import Login from './pages/Login/Login';
+import './theme/utils.css';
 /* Theme variables */
 import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = function () {
+const App = function () {
     const [isUserLogged, setUserLogged] = useState(sessionStorage.getItem("logged") === "true");
 
     return (

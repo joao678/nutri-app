@@ -7,20 +7,25 @@ import TabelaAlimentos from "../../pages/TabelaAlimentos/TabelaAlimentos";
 const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
     return (
         <>
+            <Route path="/" render={() => {
+                    if(!isUserLogged) return <Redirect to="/" />
+                }}
+            />
+
             <Route exact path="/tabela-alimentos">
-                <TabelaAlimentos setUserLogged={setUserLogged}/>
+                <TabelaAlimentos isUserLogged={isUserLogged} setUserLogged={setUserLogged}/>
             </Route>
             <Route exact path="/logout">
-                <Logout setUserLogged={setUserLogged}/>
+                <Logout isUserLogged={isUserLogged} setUserLogged={setUserLogged}/>
             </Route>
             <Route exact path="/home">
-                <Home setUserLogged={setUserLogged}/>
+                <Home isUserLogged={isUserLogged} setUserLogged={setUserLogged}/>
             </Route>
             <Route exact path="/login">
-                {isUserLogged ? <Redirect to="/home" /> : <Login setUserLogged={setUserLogged}/>} 
+                {isUserLogged ? <Redirect to="/home" /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged}/>} 
             </Route>
             <Route exact path="/" render={() => {
-                    return isUserLogged ? <Home setUserLogged={setUserLogged} /> : <Login setUserLogged={setUserLogged}/>;
+                    return isUserLogged ? <Home isUserLogged={isUserLogged} setUserLogged={setUserLogged} /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged}/>;
                 }}
             />
         </>

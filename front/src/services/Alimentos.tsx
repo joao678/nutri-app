@@ -1,4 +1,4 @@
-import apiClient from '../http-common';
+import apiClient from '../taco-common.jsx';
 
 export function getAlimento(id: number, callback: Function) {
     apiClient.get(`food/${id}`).then((response) => {

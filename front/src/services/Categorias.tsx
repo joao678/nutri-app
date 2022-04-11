@@ -1,4 +1,4 @@
-import apiClient from '../http-common';
+import apiClient from '../taco-common.jsx';
 
 export function getCategoria(id: number, callback: Function) {
     apiClient.get(`category/${id}`).then((response) => {

@@ -1,6 +1,6 @@
 import dbConfig from '../../db_config.js';
 import Sequelize from 'sequelize';
-import usuario from './usuario.model.js';
+import usuario from './usuario.js';
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,

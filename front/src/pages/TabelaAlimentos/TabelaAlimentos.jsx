@@ -2,13 +2,13 @@ import { IonCol, IonGrid, IonItem, IonRow, IonSelect, IonSelectOption, useIonAle
 import { useEffect, useState } from 'react';
 import { aviso } from '../../components/Aviso/Aviso';
 import Pagina from '../../components/Pagina/Pagina';
-import { Alimento } from '../../models/Alimento';
-import { Categoria } from '../../models/Categoria';
+/*import { Alimento } from '../../models/Alimento';
+import { Categoria } from '../../models/Categoria';*/
 import { getAllAlimentosFromCategoria, getAllCategorias } from '../../services/Categorias';
 import './TabelaAlimentos.css';
 
-const filtrarAlimentosPorCategoria = function(event: CustomEvent, setgridListData: Function) {
-    getAllAlimentosFromCategoria(event.detail.value, (data: Alimento[], message: string, success: boolean) => {
+function filtrarAlimentosPorCategoria(event, setgridListData) {
+    getAllAlimentosFromCategoria(event.detail.value, (data, message, success) => {
         if (!success) return alert(aviso(message));
 
         const alimentosView = data.map((alimento) => {
@@ -40,25 +40,25 @@ const filtrarAlimentosPorCategoria = function(event: CustomEvent, setgridListDat
     });
 }
 
-const TabelaAlimentos: React.FC<{setUserLogged: any}> = ({setUserLogged}) => {
+const TabelaAlimentos = ({isUserLogged, setUserLogged}) => {
     const [categoryList, setCategoryList] = useState([<IonSelectOption key={0}></IonSelectOption>]);
     const [gridListData, setgridListData] = useState([<div key={-1}></div>]);
     const [alert] = useIonAlert();
 
     useEffect(() => {
-        getAllCategorias((data: Categoria[], message: string, success: boolean) => {
+        getAllCategorias((data,  message, success) => {
             if (!success) return alert(aviso(message));
 
-            setCategoryList(data.map((item: Categoria) => {
+            setCategoryList(data.map((item) => {
                 return <IonSelectOption key={item.id} value={item.id}>{item.category}</IonSelectOption>
             }))
         });
     }, []);
 
     return (
-        <Pagina title="teste" setUserLogged={setUserLogged}>
+        <Pagina title="teste" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
             <IonItem>
-                <IonSelect interface="popover" placeholder="Select One" onIonChange={(e) => { filtrarAlimentosPorCategoria(e, setgridListData) }} >
+                <IonSelect interface="popover" placeholder="Select One" onIonChange={(e) => filtrarAlimentosPorCategoria(e, setgridListData) } >
                     {[...categoryList]}
                 </IonSelect>
             </IonItem>

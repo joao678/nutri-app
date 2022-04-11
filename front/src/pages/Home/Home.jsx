@@ -4,8 +4,7 @@ import './Home.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-//const Home: React.FC = () => {
-const Home = function ({setUserLogged}) {
+const Home = function ({isUserLogged, setUserLogged}) {
     let options = {
         credits: { enabled: false },
         /*chart: {
@@ -55,7 +54,7 @@ const Home = function ({setUserLogged}) {
     };
 
     return (
-        <Pagina title="Home" setUserLogged={setUserLogged}>
+        <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
             <div>
                 <HighchartsReact highcharts={Highcharts} options={options} />
             </div>

@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "10.0.0.100:8080",
+  "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
     "http"
@@ -62,11 +62,11 @@
               "properties": {
                 "email": {
                   "type": "string",
-                  "example": ""
+                  "example": "joao678@gmail.com"
                 },
                 "senha": {
                   "type": "string",
-                  "example": ""
+                  "example": "v12fv452"
                 }
               },
               "required": [

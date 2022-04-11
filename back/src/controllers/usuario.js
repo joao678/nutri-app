@@ -39,8 +39,8 @@ const usuarioController = {
         /* #swagger.parameters['Usuário'] = {
                 in: 'body',
                 schema: {
-                    $email: '',
-                    $senha: ''
+                    $email: "joao678@gmail.com",
+                    $senha: "v12fv452"
                 }
         } */
         try {
@@ -53,8 +53,9 @@ const usuarioController = {
             if(await bcrypt.compare(req.body.senha, usuario.senha)){
                 req.session.loggedin = true;
 				req.session.username = req.body.email;
+                req.session.save();
 
-                return res.send(defaultResponse(true, "Logado com sucesso!!!", {}));
+                return res.send(defaultResponse(true, "Logado com sucesso!!!", { email: req.body.email }));
             }
 
             res.send(defaultResponse(false, "Senha incorreta", {}));
@@ -69,6 +70,7 @@ const usuarioController = {
         
         req.session.loggedin = false;
         req.session.username = null;
+        req.session.destroy();
 
         res.send(defaultResponse(true, "Usuário deslogado com sucesso"));
     },

@@ -12,8 +12,14 @@ export default function () {
   const app = express();
   const swaggerConfig = JSON.parse(fs.readFileSync('./swagger_output.json'));
 
+  /*let corsOptions = {
+    origin: "*"
+  };*/
   let corsOptions = {
-    origin: "http://localhost:4200"
+    //origin: "http://10.0.0.100:3000",
+    origin: "http://localhost:3000",
+    credentials: true,
+    exposedHeaders: true
   };
 
   app.use(cors(corsOptions));
@@ -21,9 +27,10 @@ export default function () {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use(session({
+    name: 'nutri-back-session',
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false
   }));
 
   /*app.get('/', (req, res) => {
@@ -41,11 +48,11 @@ export default function () {
   db.sequelize.sync();
 
   //Dropar tudo e recriar
-  /*db.sequelize.sync({ force: true }).then(function () {
-    console.log("Drop and re-sync db.");
-  }, function () {
-    console.log(arguments);
-  });*/
+  // db.sequelize.sync({ force: true }).then(function () {
+  //   console.log("Drop and re-sync db.");
+  // }, function () {
+  //   console.log(arguments);
+  // });
 
   const PORT = process.env.PORT || 8080;
 
