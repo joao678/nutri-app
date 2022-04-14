@@ -1,0 +1,17 @@
+.texto-informativo {
+    align-self: center;
+    text-align: center;
+}
+
+.aviso-informativo {
+    background-color: rgb(224 172 8 / 32%);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.vbox-informativo {
+    height: 100%;
+    align-content: space-between;
+    grid-template-rows: 1fr 0fr 0fr;
+    padding: 20px;
+}

@@ -25,12 +25,12 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged, etapa, setEtapa }) {
             }} />
 
             <Route exact path="/login" render={() => {
-                return isUserLogged ? <Redirect to="/home" /> : <Login etapa={etapa} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return isUserLogged ? <Redirect to="/home" /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
 
             { /* Etapas */ }
             <Route exact path="/etapas/1" render={() => {
-                return <Informativo isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <Informativo isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} setEtapa={setEtapa} />
             }} />
             { /* Etapas */ }
 

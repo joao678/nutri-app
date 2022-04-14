@@ -41,7 +41,7 @@ const App = function () {
                     <IonRouterOutlet>
                         <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} setEtapa={setEtapa} />
                     </IonRouterOutlet>
-                    <IonTabBar slot="bottom" style={isUserLogged ? {} : { display: 'none' }}>
+                    <IonTabBar slot="bottom" style={isUserLogged && etapa === 9 ? {} : { display: 'none' }}>
                         <IonTabButton tab="home" href="/home">
                             <IonIcon icon={home} />
                             <IonLabel>Home</IonLabel>

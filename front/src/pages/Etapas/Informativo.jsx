@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
+import './Etapas.css';
 
-const Informativo = function ({ isUserLogged, setUserLogged }) {
+const Informativo = function ({ isUserLogged, setUserLogged, etapa, setEtapa }) {
     const history = useHistory(),
         [email, setEmail] = useState('joao678@gmail.com'),
         [password, setPassword] = useState('v12fv452'),
@@ -34,28 +35,19 @@ const Informativo = function ({ isUserLogged, setUserLogged }) {
 
     return (
         <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
-            {/* <div style={{ display: 'grid', height: '100%'  }} className="ion-justify-content-center ion-align-items-center">
-                <div className="vbox" style={{ gap: '5px' }}>
-                    <IonText hidden={!loginErro.temErro} color="danger">{loginErro.mensagem}</IonText>
-                    <IonItem>
-                        <IonLabel position="floating">Email</IonLabel>
-                        <IonInput pattern="email" type="email" value={email} onIonChange={e => setEmail(e.detail.value)}></IonInput>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Senha</IonLabel>
-                        <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value)}></IonInput>
-                    </IonItem>
-                    <div className='hbox'>
-                        <IonRouterLink href="#" class="underline align-middle" style={{ marginRight: '100px' }}>Esqueci minha senha...</IonRouterLink>
-                        
+            <div style={{ display: 'grid', height: '100%' }} className="ion-justify-content-center ion-align-items-center">
+                <div className='vbox vbox-informativo'>
+                    <div className='texto-informativo'>
+                        <IonText>
+                            Para que possamos lhe auxiliar a alcançar seus objetivos e calcular a quantidade de calorias necessárias para seu consumo diário iremos lhe realizar alguns questionamentos.
+                        </IonText>
                     </div>
+                    <IonText color="warning">
+                        <p className='aviso-informativo'>Lembrando que a utilização desta aplicação não substitui o acompanhamento com um Nutricionista !</p>
+                    </IonText>
+                    <IonButton onClick={(e) => doLogin(e, setUserLogged)}>Concordo e desejo prosseguir</IonButton>
                 </div>
-            </div> */}
-            <div className='vbox'>
-                <span>1</span>
-                <span>2</span>
             </div>
-            <IonButton onClick={(e) => doLogin(e, setUserLogged)}>Login</IonButton>
         </Pagina>
     );
 };
