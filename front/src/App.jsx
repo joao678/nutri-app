@@ -32,13 +32,14 @@ setupIonicReact();
 
 const App = function () {
     const [isUserLogged, setUserLogged] = useState(sessionStorage.getItem("logged") === "true");
+    const [etapa, setEtapa] = useState(sessionStorage.getItem("etapa"));
 
     return (
         <IonApp>
             <IonReactRouter>
                 <IonTabs>
                     <IonRouterOutlet>
-                        <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                        <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} setEtapa={setEtapa} />
                     </IonRouterOutlet>
                     <IonTabBar slot="bottom" style={isUserLogged ? {} : { display: 'none' }}>
                         <IonTabButton tab="home" href="/home">

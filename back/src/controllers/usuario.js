@@ -55,7 +55,7 @@ const usuarioController = {
 				req.session.username = req.body.email;
                 req.session.save();
 
-                return res.send(defaultResponse(true, "Logado com sucesso!!!", { email: req.body.email }));
+                return res.send(defaultResponse(true, "Logado com sucesso!!!", usuario));
             }
 
             res.send(defaultResponse(false, "Senha incorreta", {}));

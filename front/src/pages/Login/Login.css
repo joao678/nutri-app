@@ -1,3 +1,7 @@
-/*.login-content {
-    display: flex;
-}*/
+.underline {
+    text-decoration: underline;
+}
+
+.align-middle {
+    align-self: center;
+}
