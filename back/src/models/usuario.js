@@ -16,7 +16,7 @@ export default function (sequelize, Sequelize) {
     get: { type: Sequelize.STRING },
     cal_total: { type: Sequelize.DECIMAL },
     admin: { type: Sequelize.BOOLEAN },
-    confirmado: { type: Sequelize.BOOLEAN },
+    confirmado: { type: Sequelize.BOOLEAN, defaultValue: false, },
     etapa: { type: Sequelize.INTEGER, defaultValue: 1, }
   });
 

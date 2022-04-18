@@ -16,8 +16,8 @@ export default function () {
     origin: "*"
   };*/
   let corsOptions = {
-    //origin: "http://10.0.0.100:3000",
-    origin: "http://localhost:3000",
+    origin: "http://10.0.0.100:3000",
+    //origin: "http://localhost:3000",
     credentials: true,
     exposedHeaders: true
   };

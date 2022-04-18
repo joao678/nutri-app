@@ -35,9 +35,12 @@ const Login = function ({ isUserLogged, setUserLogged }) {
                     history.push('/home');
                     break;
             }
-
-            //history.push('/home');
         });
+    }
+
+    function doCadastro(e) {
+        e.preventDefault();
+        history.push('/cadastrar-se');
     }
 
     return (
@@ -54,9 +57,10 @@ const Login = function ({ isUserLogged, setUserLogged }) {
                         <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value)}></IonInput>
                     </IonItem>
                     <div className='hbox'>
-                        <IonRouterLink href="#" class="underline align-middle" style={{ marginRight: '100px' }}>Esqueci minha senha...</IonRouterLink>
-                        <IonButton onClick={(e) => doLogin(e, setUserLogged)}>Login</IonButton>
+                        <IonRouterLink href="/esqueci-minha-senha" class="underline align-middle" >Esqueci minha senha...</IonRouterLink>
+                        <IonButton color="success" onClick={(e) => doLogin(e, setUserLogged)}>Login</IonButton>
                     </div>
+                    <IonButton onClick={(e) => doCadastro(e, setUserLogged)}>Não possui cadstro? clique aqui</IonButton>
                 </div>
             </div>
         </Pagina>
