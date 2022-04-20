@@ -1,36 +1,22 @@
-import { IonButton, IonInput, IonItem, IonLabel, IonRouterLink, IonText } from '@ionic/react';
-import { useState } from 'react';
+import { IonButton, IonText } from '@ionic/react';
 import { useHistory } from 'react-router';
 import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
 
-const Informativo = function ({ isUserLogged, setUserLogged, etapa, setEtapa }) {
-    const history = useHistory(),
-        [email, setEmail] = useState('joao678@gmail.com'),
-        [password, setPassword] = useState('v12fv452'),
-        [loginErro, setLoginErro] = useState({ temErro: false, mensagem: '' });
+const Informativo = function ({ usuario, isUserLogged, setUserLogged }) {
+    const history = useHistory();
 
-    function doLogin(e, setUserLogged) {
-        // usuarioController.login({ email: email, senha: password }, function(content, message, success) {
-        //     setLoginErro({ temErro: !success, mensagem: message });
+    function proxEtapa(e, setUserLogged) {
+        usuario.etapa += 1;
+        usuarioController.alterarUsuario(usuario, function (content, message, success) {
+            //setLoginErro({ temErro: !success, mensagem: message });
 
-        //     if(!success) return;
-        //     e.preventDefault();
-        //     sessionStorage.setItem('logged', true);
-        //     sessionStorage.setItem('email', content.email);
-        //     setUserLogged(true);
+            if (!success) return;
+            e.preventDefault();
 
-        //     switch (content.etapa) {
-        //         case 1:
-        //             history.push('/etapas/1');
-        //             break;
-
-        //         case 2:
-        //             history.push('/etapas/2');
-        //             break;
-        //     }
-        // });
+            history.push('/etapas/2', { usuario: usuario });
+        });
     }
 
     return (
@@ -45,7 +31,7 @@ const Informativo = function ({ isUserLogged, setUserLogged, etapa, setEtapa }) 
                     <IonText color="warning">
                         <p className='aviso-informativo'>Lembrando que a utilização desta aplicação não substitui o acompanhamento com um Nutricionista !</p>
                     </IonText>
-                    <IonButton onClick={(e) => doLogin(e, setUserLogged)}>Concordo e desejo prosseguir</IonButton>
+                    <IonButton onClick={(e) => proxEtapa(e, setUserLogged)}>Concordo e desejo prosseguir</IonButton>
                 </div>
             </div>
         </Pagina>

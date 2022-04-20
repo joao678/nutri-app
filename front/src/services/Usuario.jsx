@@ -48,6 +48,14 @@ export default {
             callback(response.data, response.message, false);
         });
     },
+
+    alterarUsuario: function (dto, callback) {
+        apiClient.post(`usuarios/${dto.id}/alterar`, dto).then((response) => {
+            callback(response.data.Content, response.data.Message, response.data.Success);
+        }, (response) => {
+            callback(response.data, response.message, false);
+        });
+    },
 }
 
 // export function getAllCategorias(callback: Function) {

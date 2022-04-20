@@ -21,10 +21,13 @@ router.post("/alterar-senha", usuarioController.alterarSenha);
 //confirmar
 router.post("/confirmar", usuarioController.confirmar);
 
+//alterarUsuario
+router.post("/:id/alterar", usuarioController.alterarUsuario);
+
 //restricted_func
 router.get("/restricted_func", usuarioController.restricted_func);
 
-// //read
+//read
 // router.get("/", usuarioController.findAll);
 // router.get("/:id", usuarioController.findOne);
 

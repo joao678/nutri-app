@@ -60,8 +60,8 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged, etapa, setEtapa }) {
             }} />
             
             { /* Etapas */}
-            <Route exact path="/etapas/1" render={() => {
-                return <Informativo isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} setEtapa={setEtapa} />
+            <Route exact path="/etapas/1" render={({ match, location }) => {
+                return <Informativo usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             { /* Etapas */}
 

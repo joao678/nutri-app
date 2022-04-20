@@ -195,6 +195,128 @@
         }
       }
     },
+    "/api/usuarios/{id}/alterar": {
+      "post": {
+        "tags": [
+          "Usuário"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Usuário",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "idade": {
+                  "type": "number",
+                  "example": 0
+                },
+                "peso": {
+                  "type": "number",
+                  "example": 0
+                },
+                "altura": {
+                  "type": "number",
+                  "example": 0
+                },
+                "meta": {
+                  "type": "number",
+                  "example": 0
+                },
+                "peso_perder": {
+                  "type": "number",
+                  "example": 0
+                },
+                "peso_ganhar": {
+                  "type": "number",
+                  "example": 0
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "m"
+                },
+                "nivel_atividade": {
+                  "type": "number",
+                  "example": 0
+                },
+                "geb": {
+                  "type": "number",
+                  "example": 0
+                },
+                "get": {
+                  "type": "number",
+                  "example": 0
+                },
+                "cal_total": {
+                  "type": "number",
+                  "example": 0
+                },
+                "admin": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "confirmado": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "etapa": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "required": [
+                "id",
+                "email",
+                "senha",
+                "nome",
+                "idade",
+                "peso",
+                "altura",
+                "meta",
+                "peso_perder",
+                "peso_ganhar",
+                "sexo",
+                "nivel_atividade",
+                "geb",
+                "get",
+                "cal_total",
+                "admin",
+                "confirmado",
+                "etapa"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/usuarios/restricted_func": {
       "get": {
         "tags": [

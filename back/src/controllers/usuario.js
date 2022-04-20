@@ -140,8 +140,44 @@ const usuarioController = {
         Usuario.update({ confirmado: true }, {
             where: { id: req.body.id }
         }).then(num => {
-            if (num == 1) res.send(defaultResponse(true, `O usuário com sucesso`));
+            if (num == 1) res.send(defaultResponse(true, `O usuário foi confirmado com sucesso`));
             else res.send(defaultResponse(false, `Ocorreu um erro ao confirmar o usuário`));
+        }).catch(err => {
+            res.send(defaultResponse(false, `Ocorreu um erro desconhecido: ${err}`));
+        });
+    },
+
+    alterarUsuario: async function (req, res) {
+        /* #swagger.tags = ['Usuário'] */
+        /* #swagger.parameters['Usuário'] = {
+                in: 'body',
+                schema: {
+                    $id: "string",
+                    $email: "string",
+                    $senha: "string",
+                    $nome: "string",
+                    $idade: 0,
+                    $idade: 0,
+                    $peso: 0.0,
+                    $altura: 0.0,
+                    $meta: 0.0,
+                    $peso_perder: 0.0,
+                    $peso_ganhar: 0.0,
+                    $sexo: "m",
+                    $nivel_atividade: 0,
+                    $geb: 0.0,
+                    $get: 0.0,
+                    $cal_total: 0.0,
+                    $admin: false,
+                    $confirmado: false,
+                    $etapa: 1
+                }
+        } */
+        Usuario.update(req.body, {
+            where: { id: req.body.id }
+        }).then(num => {
+            if (num == 1) res.send(defaultResponse(true, `O usuário foi alterado com sucesso`));
+            else res.send(defaultResponse(false, `Ocorreu um erro ao alterar o usuário usuário`));
         }).catch(err => {
             res.send(defaultResponse(false, `Ocorreu um erro desconhecido: ${err}`));
         });

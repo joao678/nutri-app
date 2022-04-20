@@ -16,15 +16,17 @@ const Login = function ({ isUserLogged, setUserLogged }) {
             setLoginErro({ temErro: !success, mensagem: message });
 
             if(!success) return;
+            const usuario = content;
+
             e.preventDefault();
             sessionStorage.setItem('logged', true);
-            sessionStorage.setItem('email', content.email);
-            sessionStorage.setItem('etapa', content.etapa);
+            sessionStorage.setItem('email', usuario.email);
+            sessionStorage.setItem('etapa', usuario.etapa);
             setUserLogged(true);
 
-            switch (content.etapa) {
+            switch (usuario.etapa) {
                 case 1:
-                    history.push('/etapas/1');
+                    history.push('/etapas/1', { usuario: usuario });
                     break;
 
                 case 2:
