@@ -16,8 +16,9 @@ export default function () {
     origin: "*"
   };*/
   let corsOptions = {
-    origin: "http://10.0.0.100:3000",
-    //origin: "http://localhost:3000",
+    //origin: "http://10.0.0.100:3000",
+    origin: "http://localhost:3000",
+    //origin: "http://localhost:8100",
     credentials: true,
     exposedHeaders: true
   };
@@ -45,7 +46,7 @@ export default function () {
 
   setupEndpoints(app);
 
-  db.sequelize.sync();
+  db.sequelize.sync({ alter: true });
 
   //Dropar tudo e recriar
   // db.sequelize.sync({ force: true }).then(function () {

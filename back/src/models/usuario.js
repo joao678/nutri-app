@@ -4,7 +4,7 @@ export default function (sequelize, Sequelize) {
     email: { type: Sequelize.STRING, unique: true },
     senha: { type: Sequelize.STRING },
     nome: { type: Sequelize.STRING },
-    idade: { type: Sequelize.INTEGER },
+    data_nasc: { type: Sequelize.DATE },
     peso: { type: Sequelize.DECIMAL },
     altura: { type: Sequelize.DECIMAL },
     meta: { type: Sequelize.DECIMAL },

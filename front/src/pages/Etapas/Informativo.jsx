@@ -28,7 +28,7 @@ const Informativo = function ({ usuario, isUserLogged, setUserLogged }) {
                             Para que possamos lhe auxiliar a alcançar seus objetivos e calcular a quantidade de calorias necessárias para seu consumo diário iremos lhe realizar alguns questionamentos.
                         </IonText>
                     </div>
-                    <IonText color="warning">
+                    <IonText color='warning'>
                         <p className='aviso-informativo'>Lembrando que a utilização desta aplicação não substitui o acompanhamento com um Nutricionista !</p>
                     </IonText>
                     <IonButton onClick={(e) => proxEtapa(e, setUserLogged)}>Concordo e desejo prosseguir</IonButton>

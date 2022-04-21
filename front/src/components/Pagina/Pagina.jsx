@@ -12,7 +12,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged}) {
             e.preventDefault();
             sessionStorage.clear();
             setUserLogged(false);
-            history.push('/');
+            history.push('/login');
         });
     }
 

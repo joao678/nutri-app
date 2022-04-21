@@ -30,7 +30,7 @@ const Login = function ({ isUserLogged, setUserLogged }) {
                     break;
 
                 case 2:
-                    history.push('/etapas/2');
+                    history.push('/etapas/2', { usuario: usuario });
                     break;
 
                 case 9:
