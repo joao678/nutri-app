@@ -1,8 +1,9 @@
-import { IonButton, IonContent, IonDatetime, IonIcon, IonModal, IonText, useIonAlert, useIonPicker } from '@ionic/react';
-import { arrowForwardOutline, calendar } from 'ionicons/icons';
+import { IonButton, IonContent, IonDatetime, IonIcon, IonModal, IonText, useIonAlert } from '@ionic/react';
 import { format, isAfter, isDate, parseISO } from 'date-fns';
+import { arrowForwardOutline, calendar } from 'ionicons/icons';
 import { useRef, useState } from 'react';
 import { useHistory } from 'react-router';
+import { aviso } from '../../components/Aviso/Aviso';
 import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
@@ -11,21 +12,21 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
     const history = useHistory(),
         [informarIdadeTexto, setInformarIdadeTexto] = useState(),
         [dataNasc, setDataNasc] = useState(),
-        [alerta] = useIonAlert(),
+        [alert] = useIonAlert(),
         dateTimeDataNasc = useRef();
 
     function proxEtapa(e, setUserLogged) {
-        if(!dataNasc) return alerta('É necessário informar uma data de nascimento', [{ text: 'Ok' }]);
-        if(!isDate(dataNasc)) return alerta('Informe uma data válida', [{ text: 'Ok' }]);
+        if (!dataNasc) return alert(aviso('É necessário informar uma data de nascimento'));
+        if (!isDate(dataNasc)) return alert(aviso('Informe uma data válida'));
 
         usuario.etapa += 1;
         usuario.data_nasc = dataNasc;
-        usuario.data_nasc.setHours(0,0,0,0);
+        usuario.data_nasc.setHours(0, 0, 0, 0);
         usuarioController.alterarUsuario(usuario, function (content, message, success) {
             if (!success) return;
             e.preventDefault();
 
-            history.push('/etapas/3', { usuario: usuario });
+            history.push(`/etapas/${usuario.etapa}`, { usuario: usuario });
         });
     }
 
@@ -39,7 +40,7 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
                 <IonContent force-overscroll="false">
                     <IonDatetime presentation='date' ref={dateTimeDataNasc} onIonChange={e => {
                         const parsedDate = parseISO(e.detail.value);
-                        if (isAfter(parsedDate, new Date())) return alerta('A data de nascimento não deve ser após hoje.', [{ text: 'Ok' }]);
+                        if (isAfter(parsedDate, new Date())) return alert(aviso('A data de nascimento não deve ser após hoje.'));
                         setInformarIdadeTexto(formatDate(e.detail.value))
                         setDataNasc(parsedDate);
                         dateTimeDataNasc.current.confirm(true);
@@ -49,8 +50,12 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
             <div style={{ display: 'grid', height: '100%' }} className="ion-align-items-center">
                 <div className='vbox vbox-informativo' style={{ width: '100%', gridTemplateRows: 'unset' }}>
                     <h1 className='ion-text-center'>Informe sua data de nascimento clicando sob o calendário</h1>
-                    <div className='texto-informativo'>
-                        <IonIcon id="open-modal" className='botao-calendario' icon={calendar} />
+                    <div className='hbox' style={{ gridTemplateColumns: '1fr 1fr 1fr', gap: '5px', placeItems: 'center' }}>
+                        <div></div>
+                        <div className='botoes-centrais botao-calendario'>
+                            <IonIcon id="open-modal" icon={calendar} />
+                        </div>
+                        <div></div>
                     </div>
                     <div>
                         <IonText color="dark" hidden={!informarIdadeTexto}>

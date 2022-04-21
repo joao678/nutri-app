@@ -12,10 +12,10 @@ const Login = function ({ isUserLogged, setUserLogged }) {
         [loginErro, setLoginErro] = useState({ temErro: false, mensagem: '' });
 
     function doLogin(e, setUserLogged) {
-        usuarioController.login({ email: email, senha: password }, function(content, message, success) {
+        usuarioController.login({ email: email, senha: password }, function (content, message, success) {
             setLoginErro({ temErro: !success, mensagem: message });
 
-            if(!success) return;
+            if (!success) return;
             const usuario = content;
 
             e.preventDefault();
@@ -24,19 +24,8 @@ const Login = function ({ isUserLogged, setUserLogged }) {
             sessionStorage.setItem('etapa', usuario.etapa);
             setUserLogged(true);
 
-            switch (usuario.etapa) {
-                case 1:
-                    history.push('/etapas/1', { usuario: usuario });
-                    break;
-
-                case 2:
-                    history.push('/etapas/2', { usuario: usuario });
-                    break;
-
-                case 9:
-                    history.push('/home');
-                    break;
-            }
+            if(usuario.etapa === 8) return history.push('/home');
+            history.push(`/etapas/${usuario.etapa}`, { usuario: usuario });
         });
     }
 
@@ -47,7 +36,7 @@ const Login = function ({ isUserLogged, setUserLogged }) {
 
     return (
         <Pagina title="Login" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
-            <div style={{ display: 'grid', height: '100%'  }} className="ion-justify-content-center ion-align-items-center">
+            <div style={{ display: 'grid', height: '100%' }} className="ion-justify-content-center ion-align-items-center">
                 <div className="vbox" style={{ gap: '5px' }}>
                     <IonText hidden={!loginErro.temErro} color="danger">{loginErro.mensagem}</IonText>
                     <IonItem>

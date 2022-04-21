@@ -1,14 +1,16 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
 import { exitOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
 import usuarioController from '../../services/Usuario';
+import { aviso } from '../Aviso/Aviso';
 
 const Pagina = function ({ children, title, isUserLogged, setUserLogged}) {
-    const history = useHistory();
+    const history = useHistory(),
+        [alert] = useIonAlert();
 
     function doLogout(e, setUserLogged) {
         usuarioController.logout({}, function(content, message, success) {
-            if(!success) return;
+            if(!success) alert(aviso(message));
             e.preventDefault();
             sessionStorage.clear();
             setUserLogged(false);

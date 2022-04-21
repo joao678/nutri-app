@@ -1,6 +1,11 @@
-import { Redirect, Route } from "react-router";
+import { Route } from "react-router";
 import Informativo from "../../pages/Etapas/Informativo";
+import PerguntarAltura from "../../pages/Etapas/PerguntarAltura";
 import PerguntarIdade from "../../pages/Etapas/PerguntarIdade";
+import PerguntarMeta from "../../pages/Etapas/PerguntarMeta";
+import PerguntarNivelAtividade from "../../pages/Etapas/PerguntarNivelAtividade";
+import PerguntarPeso from "../../pages/Etapas/PerguntarPeso";
+import PerguntarSexo from "../../pages/Etapas/PerguntarSexo";
 import Home from "../../pages/Home/Home";
 import Cadastro from "../../pages/Login/Cadastro/Cadastro";
 import CadastroEmailConfirmacao from "../../pages/Login/Cadastro/CadastroEmailConfirmacao";
@@ -61,6 +66,21 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
             }} />
             <Route exact path="/etapas/2" render={({ match, location }) => {
                 return <PerguntarIdade usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+            }} />
+            <Route exact path="/etapas/3" render={({ match, location }) => {
+                return <PerguntarPeso usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+            }} />
+            <Route exact path="/etapas/4" render={({ match, location }) => {
+                return <PerguntarAltura usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+            }} />
+            <Route exact path="/etapas/5" render={({ match, location }) => {
+                return <PerguntarMeta usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+            }} />
+            <Route exact path="/etapas/6" render={({ match, location }) => {
+                return <PerguntarSexo usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+            }} />
+            <Route exact path="/etapas/7" render={({ match, location }) => {
+                return <PerguntarNivelAtividade usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             { /* Etapas */}
 

@@ -15,7 +15,7 @@ const Informativo = function ({ usuario, isUserLogged, setUserLogged }) {
             if (!success) return;
             e.preventDefault();
 
-            history.push('/etapas/2', { usuario: usuario });
+            history.push(`/etapas/${usuario.etapa}`, { usuario: usuario });
         });
     }
 

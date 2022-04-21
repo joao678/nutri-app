@@ -35,10 +35,65 @@ ion-modal ion-datetime {
 ion-datetime {
     height: auto;
     width: auto;
-
     max-width: 350px;
 }
 
+.botoes-centrais-grid-num-1 {
+    --grid-num: 1;
+}
+
+.botoes-centrais-grid-num-2 {
+    --grid-num: 2;
+}
+
+.botoes-centrais-grid-num-3 {
+    --grid-num: 3;
+}
+
+.botoes-centrais-grid-num-4 {
+    --grid-num: 4;
+}
+
+.botoes-centrais {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    place-items: center;
+    gap: 10px;
+    cursor: pointer;
+    aspect-ratio: 1;
+    width: calc(90vw / var(--grid-num));
+    max-width: 300px;
+}
+
+.botoes-centrais ion-icon {
+    font-size: 6em;
+}
+
 .botao-calendario {
-    font-size: 115px;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.botao-danger {
+    background-color: rgba(var(--ion-color-danger-rgb), 0.4);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.botao-primary {
+    background-color: rgba(var(--ion-color-primary-rgb), 0.4);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.botao-success {
+    background-color: rgba(var(--ion-color-success-rgb), 0.4);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.modal-meta {
+    --height: 120px;
 }
