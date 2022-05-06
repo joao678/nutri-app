@@ -56,18 +56,18 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
                 <div className='vbox vbox-informativo' style={{ width: '100%', gridTemplateRows: 'unset' }}>
                     <h1 className='ion-text-center'>Informe sua meta de peso</h1>
                     <div className='hbox' style={{ gridTemplateColumns: '1fr 1fr 1fr', gap: '5px', placeItems: 'center' }}>
-                        <div className='botoes-centrais botao-danger botoes-centrais-grid-num-3'>
-                            <IonIcon icon={arrowDown} onClick={(e) => { setPesoMeta(0); setTipoMeta('perder'); setModalAberto(true) }} />
+                        <div className='botoes-centrais botao-danger botoes-centrais-grid-num-3' onClick={(e) => { setPesoMeta(0); setTipoMeta('perder'); setModalAberto(true) }}>
+                            <IonIcon icon={arrowDown}/>
                             <span>Perder peso</span>
                         </div>
 
-                        <div className='botoes-centrais botao-primary botoes-centrais-grid-num-3'>
-                            <IonIcon icon={remove} onClick={(e) => { setPesoMeta(0); setTipoMeta('manter'); }} />
+                        <div className='botoes-centrais botao-primary botoes-centrais-grid-num-3' onClick={(e) => { setPesoMeta(0); setTipoMeta('manter'); }}>
+                            <IonIcon icon={remove}/>
                             <span>Manter peso</span>
                         </div>
 
-                        <div className='botoes-centrais botao-success botoes-centrais-grid-num-3'>
-                            <IonIcon icon={arrowUp} onClick={(e) => { setPesoMeta(0); setTipoMeta('ganhar'); setModalAberto(true) }} />
+                        <div className='botoes-centrais botao-success botoes-centrais-grid-num-3' onClick={(e) => { setPesoMeta(0); setTipoMeta('ganhar'); setModalAberto(true) }} >
+                            <IonIcon icon={arrowUp}/>
                             <span>Ganhar peso</span>
                         </div>
                     </div>

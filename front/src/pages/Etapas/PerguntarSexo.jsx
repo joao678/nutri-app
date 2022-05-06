@@ -31,13 +31,13 @@ const PerguntarSexo = function ({ usuario, isUserLogged, setUserLogged }) {
                 <div className='vbox vbox-informativo' style={{ width: '100%', gridTemplateRows: 'unset' }}>
                     <h1 className='ion-text-center'>Informe seu sexo</h1>
                     <div className='hbox' style={{ gridTemplateColumns: '1fr 1fr', gap: '5px', placeItems: 'center' }}>
-                        <div className='botoes-centrais botao-primary botoes-centrais-grid-num-2'>
-                            <IonIcon icon={man} onClick={(e) => { setSexo('m'); }} />
+                        <div className='botoes-centrais botao-primary botoes-centrais-grid-num-2' onClick={(e) => { setSexo('m'); }}>
+                            <IonIcon icon={man}/>
                             <span>Masculino</span>
                         </div>
 
-                        <div className='botoes-centrais botao-primary botoes-centrais-grid-num-2'>
-                            <IonIcon icon={woman} onClick={(e) => { setSexo('f'); }} />
+                        <div className='botoes-centrais botao-primary botoes-centrais-grid-num-2' onClick={(e) => { setSexo('f'); }}>
+                            <IonIcon icon={woman}/>
                             <span>Feminino</span>
                         </div>
                     </div>

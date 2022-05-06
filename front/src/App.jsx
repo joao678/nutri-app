@@ -27,31 +27,39 @@ import BaseRoutes from './components/Routes/BaseRoutes';
 import './theme/utils.css';
 /* Theme variables */
 import './theme/variables.css';
+import './theme/charts.css';
 
 setupIonicReact();
 
 const App = function () {
     const [isUserLogged, setUserLogged] = useState(sessionStorage.getItem("logged") === "true");
-    const [etapa, setEtapa] = useState(sessionStorage.getItem("etapa"));
+    const etapa = sessionStorage.getItem("etapa");
 
     return (
+        // <IonApp>
+        //     <IonReactRouter>
+        //         <IonTabs>
+        //             <IonRouterOutlet>
+        //                 <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} />
+        //             </IonRouterOutlet>
+        //             <IonTabBar slot="bottom" style={isUserLogged && parseInt(etapa) === 8 ? {} : { display: 'none' }}>
+        //                 <IonTabButton tab="home" href="/home">
+        //                     <IonIcon icon={home} />
+        //                     <IonLabel>Home</IonLabel>
+        //                 </IonTabButton>
+        //                 <IonTabButton tab="tabela-alimentos" href="/tabela-alimentos">
+        //                     <IonIcon icon={serverOutline} />
+        //                     <IonLabel>Tabela de alimentos</IonLabel>
+        //                 </IonTabButton>
+        //             </IonTabBar>
+        //         </IonTabs>
+        //     </IonReactRouter>
+        // </IonApp>
         <IonApp>
             <IonReactRouter>
-                <IonTabs>
-                    <IonRouterOutlet>
-                        <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} setEtapa={setEtapa} />
-                    </IonRouterOutlet>
-                    <IonTabBar slot="bottom" style={isUserLogged && etapa === 9 ? {} : { display: 'none' }}>
-                        <IonTabButton tab="home" href="/home">
-                            <IonIcon icon={home} />
-                            <IonLabel>Home</IonLabel>
-                        </IonTabButton>
-                        <IonTabButton tab="tabela-alimentos" href="/tabela-alimentos">
-                            <IonIcon icon={serverOutline} />
-                            <IonLabel>Tabela de alimentos</IonLabel>
-                        </IonTabButton>
-                    </IonTabBar>
-                </IonTabs>
+                <IonRouterOutlet>
+                    <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} />
+                </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
     );
