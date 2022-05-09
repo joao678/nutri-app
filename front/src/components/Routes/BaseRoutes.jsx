@@ -24,8 +24,8 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
                 return <TabelaAlimentos isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
 
-            <Route exact path="/home" render={() => {
-                return <Home isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+            <Route exact path="/home" render={function ({ match, location }) {
+                return <Home usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
 
             <Route exact path="/login" render={() => {
@@ -84,8 +84,8 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
             }} />
             { /* Etapas */}
 
-            <Route exact path="/" render={() => {
-                return isUserLogged ? <Home isUserLogged={isUserLogged} setUserLogged={setUserLogged} /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />;
+            <Route exact path="/" render={({ match, location }) => {
+                return isUserLogged ? <Home usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />;
             }}
             />
         </>

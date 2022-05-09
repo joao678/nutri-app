@@ -24,7 +24,7 @@ const Login = function ({ isUserLogged, setUserLogged }) {
             sessionStorage.setItem('etapa', usuario.etapa);
             setUserLogged(true);
 
-            if(usuario.etapa === 8) return history.push('/home');
+            if(usuario.etapa === 8) return history.push('/home', { usuario: usuario });
             history.push(`/etapas/${usuario.etapa}`, { usuario: usuario });
         });
     }

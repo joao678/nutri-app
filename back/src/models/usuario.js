@@ -1,5 +1,3 @@
-import anamnese from "./anamnese.js";
-
 export default function (sequelize, Sequelize) {
     const Usuario = sequelize.define("usuario", {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
@@ -14,8 +12,6 @@ export default function (sequelize, Sequelize) {
         confirmado: { type: Sequelize.BOOLEAN, defaultValue: false, },
         etapa: { type: Sequelize.INTEGER, defaultValue: 1, }
     });
-
-    Usuario.hasOne(anamnese(sequelize, Sequelize));
 
     return Usuario;
 }

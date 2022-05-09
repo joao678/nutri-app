@@ -5,7 +5,8 @@ export default function (sequelize, Sequelize) {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
         quantidade: { type: Sequelize.DECIMAL },
         qtd_fracionado: { type: Sequelize.DECIMAL },
-        data_consumo: { type: Sequelize.DATE }
+        data_consumo: { type: Sequelize.DATE },
+        periodo: { type: Sequelize.INTEGER },
     });
     
     AlimentoDiario.hasOne(alimento(sequelize, Sequelize));

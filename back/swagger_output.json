@@ -230,10 +230,6 @@
                   "type": "string",
                   "example": "string"
                 },
-                "idade": {
-                  "type": "number",
-                  "example": 0
-                },
                 "peso": {
                   "type": "number",
                   "example": 0
@@ -242,37 +238,55 @@
                   "type": "number",
                   "example": 0
                 },
-                "meta": {
-                  "type": "number",
-                  "example": 0
-                },
-                "peso_perder": {
-                  "type": "number",
-                  "example": 0
-                },
-                "peso_ganhar": {
-                  "type": "number",
-                  "example": 0
+                "data_nasc": {
+                  "type": "string",
+                  "example": ""
                 },
                 "sexo": {
                   "type": "string",
                   "example": "m"
                 },
-                "nivel_atividade": {
-                  "type": "number",
-                  "example": 0
-                },
-                "geb": {
-                  "type": "number",
-                  "example": 0
-                },
-                "get": {
-                  "type": "number",
-                  "example": 0
-                },
-                "cal_total": {
-                  "type": "number",
-                  "example": 0
+                "anamnese": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "peso_perder": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "peso_ganhar": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "nivel_atividade": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "geb": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "get": {
+                      "type": "number",
+                      "example": 0
+                    },
+                    "cal_total": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  },
+                  "required": [
+                    "meta",
+                    "peso_perder",
+                    "peso_ganhar",
+                    "nivel_atividade",
+                    "geb",
+                    "get",
+                    "cal_total"
+                  ]
                 },
                 "admin": {
                   "type": "boolean",
@@ -292,17 +306,11 @@
                 "email",
                 "senha",
                 "nome",
-                "idade",
                 "peso",
                 "altura",
-                "meta",
-                "peso_perder",
-                "peso_ganhar",
+                "data_nasc",
                 "sexo",
-                "nivel_atividade",
-                "geb",
-                "get",
-                "cal_total",
+                "anamnese",
                 "admin",
                 "confirmado",
                 "etapa"
@@ -324,6 +332,37 @@
         ],
         "description": "",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/agua/adicionarAgua": {
+      "post": {
+        "tags": [
+          "Água"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Água",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "quantidade": {
+                  "type": "number",
+                  "example": 0
+                }
+              },
+              "required": [
+                "quantidade"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

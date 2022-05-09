@@ -17,7 +17,7 @@ const PerguntarNivelAtividade = function ({ usuario, isUserLogged, setUserLogged
         if (nivelAtividade === null) return alert(aviso('Informe um nível de atividade física'));
 
         usuario.etapa += 1;
-        usuario.nivel_atividade = nivelAtividade;
+        usuario.anamnese.nivel_atividade = nivelAtividade;
         usuarioController.alterarUsuario(usuario, function (content, message, success) {
             if (!success) return;
             e.preventDefault();

@@ -6,8 +6,6 @@ export default function (sequelize, Sequelize) {
         tempo_min: { type: Sequelize.INTEGER },
         data_praticado: { type: Sequelize.DATE }
     });
-    
-    ExercicioDiario.hasOne(exercicio(sequelize, Sequelize));
 
     return ExercicioDiario;
 }

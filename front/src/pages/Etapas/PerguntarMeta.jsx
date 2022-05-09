@@ -15,15 +15,15 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
         [alert] = useIonAlert(),
         modalMeta = useRef();
 
-    function proxEtapa(e, setUserLogged) {
+    function proxEtapa(e) {
         if (pesoMeta === 0 && tipoMeta !== 'manter') return alert(aviso('A meta de peso não deve ser igual a 0'));
 
         switch (tipoMeta) {
             case 'perder':
-                usuario.peso_perder = pesoMeta;
+                usuario.anamnese.peso_perder = pesoMeta;
                 break;
             case 'ganhar':
-                usuario.peso_ganhar = pesoMeta;
+                usuario.anamnese.peso_ganhar = pesoMeta;
                 break;
         }
 

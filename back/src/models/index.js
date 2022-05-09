@@ -21,9 +21,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     }
 });
 
-export default {
+const modelIndex = {
     Sequelize: Sequelize,
     sequelize: sequelize,
+    
     alimento: alimento(sequelize, Sequelize),
     exercicio: exercicio(sequelize, Sequelize),
     exercicioDiario: exercicioDiario(sequelize, Sequelize),
@@ -32,3 +33,14 @@ export default {
     anamnese: anamnese(sequelize, Sequelize),
     usuarios: usuario(sequelize, Sequelize)
 }
+
+modelIndex.usuarios.hasOne(modelIndex.anamnese);
+modelIndex.anamnese.belongsTo(modelIndex.usuarios);
+
+modelIndex.exercicioDiario.hasOne(modelIndex.exercicio);
+modelIndex.exercicio.belongsTo(modelIndex.exercicioDiario);
+
+modelIndex.anamnese.hasMany(modelIndex.aguaDiario);
+modelIndex.aguaDiario.belongsTo(modelIndex.anamnese);
+
+export default modelIndex;

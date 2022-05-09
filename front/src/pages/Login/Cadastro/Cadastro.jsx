@@ -6,9 +6,9 @@ import usuarioController from '../../../services/Usuario';
 
 const Cadastro = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),
-        [email, setEmail] = useState(''),
-        [emailConfirmacao, setEmailConfirmacao] = useState(''),
-        [password, setPassword] = useState(''),
+        [email, setEmail] = useState('joao678@gmail.com'),
+        [emailConfirmacao, setEmailConfirmacao] = useState('joao678@gmail.com'),
+        [password, setPassword] = useState('v12fv452'),
         [erro, setErro] = useState({ temErro: false, mensagem: '' }),
         [showLoading, setShowLoading] = useState(false);
 

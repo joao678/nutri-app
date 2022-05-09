@@ -14,9 +14,7 @@ export default function (sequelize, Sequelize) {
         cal_total: { type: Sequelize.DECIMAL }
     });
 
-    Anamnese.hasMany(exercicioDiario(sequelize, Sequelize));
-    Anamnese.hasMany(aguaDiario(sequelize, Sequelize));
     Anamnese.hasMany(alimentoDiario(sequelize, Sequelize));
-    
+
     return Anamnese;
 }

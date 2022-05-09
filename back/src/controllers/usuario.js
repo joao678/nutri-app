@@ -1,10 +1,11 @@
-import db from '../models/index.js';
-import baseController from '../core/base.controller.js';
-import defaultResponse from '../core/base.response.js';
 import bcrypt from 'bcrypt';
 import enviarEmail from '../../email.js';
+import defaultResponse from '../core/base.response.js';
+import db from '../models/index.js';
 
 const Usuario = db.usuarios;
+const Anamnese = db.anamnese;
+const AguaDiario = db.aguaDiario;
 const Op = db.Sequelize.Op;
 
 const usuarioController = {
@@ -19,24 +20,25 @@ const usuarioController = {
         } */
         try {
             if (req.body.senha === '') throw "A Senha não foi informada!";
-
             const senhaCriptografada = await bcrypt.hash(req.body.senha, 10);
-            const usuario = {
-                email: req.body.email,
-                senha: senhaCriptografada
-            }
 
-            const entidade = await baseController.create(usuario, res, Usuario);
+            const usuarioEntidade = await Usuario.create({
+                email: req.body.email,
+                senha: senhaCriptografada,
+                anamnese: {}
+            }, {
+                include: [Anamnese]
+            });
 
             return enviarEmail(
                 req.body.email,
                 'Confirmar usuário - Nutri App',
-                `<a href="http://10.0.0.100:3000/confirmar-usuario/${entidade.id}">Clique aqui para confirmar seu usuário</a>`,
-            () => {
-                return res.send(defaultResponse(true, `O email de confirmação foi enviado`));
-            });
+                `<a href="http://10.0.0.100:3000/confirmar-usuario/${usuarioEntidade.id}">Clique aqui para confirmar seu usuário</a>`,
+                () => {
+                    return res.send(defaultResponse(true, `O email de confirmação foi enviado`));
+                });
         } catch (error) {
-            res.send(defaultResponse(false, 'Erro não identificado'));
+            res.send(defaultResponse(false, error.toString()));
         }
     },
 
@@ -51,15 +53,28 @@ const usuarioController = {
         } */
         try {
             const usuario = await Usuario.findOne({
-                where: { email: { [Op.like]: req.body.email } }
+                where: { email: { [Op.like]: req.body.email } },
+                //include: Anamnese
+                include: [{
+                    model: Anamnese,
+                    include: AguaDiario
+                }]
             });
 
             if (!usuario) throw "Usuário inexistente.";
 
             if (await bcrypt.compare(req.body.senha, usuario.senha)) {
                 req.session.loggedin = true;
+                req.session.usuarioId = usuario.id;
                 req.session.username = req.body.email;
                 req.session.save();
+
+                /* const anamnese = await Anamnese.findOne({ where: { usuarioId: usuario.id } });
+                const aguaDiario = await AguaDiario.findOne({ where: { anamneseId: anamnese.id } });  */
+
+                /* usuario.agua_diario = {
+                    quantidade: aguaDiario.quantidade
+                }; */
 
                 return res.send(defaultResponse(true, "Logado com sucesso!!!", usuario));
             }
@@ -76,6 +91,7 @@ const usuarioController = {
 
         req.session.loggedin = false;
         req.session.username = null;
+        req.session.usuarioId = null;
         req.session.destroy();
 
         res.send(defaultResponse(true, "Usuário deslogado com sucesso"));
@@ -156,31 +172,39 @@ const usuarioController = {
                     $email: "string",
                     $senha: "string",
                     $nome: "string",
-                    $idade: 0,
-                    $idade: 0,
                     $peso: 0.0,
                     $altura: 0.0,
-                    $meta: 0.0,
-                    $peso_perder: 0.0,
-                    $peso_ganhar: 0.0,
+                    $data_nasc: '',
                     $sexo: "m",
-                    $nivel_atividade: 0,
-                    $geb: 0.0,
-                    $get: 0.0,
-                    $cal_total: 0.0,
+                    $anamnese: {
+                        $meta: 0.0,
+                        $peso_perder: 0.0,
+                        $peso_ganhar: 0.0,
+                        $nivel_atividade: 0,
+                        $geb: 0.0,
+                        $get: 0.0,
+                        $cal_total: 0.0,
+                    },
                     $admin: false,
                     $confirmado: false,
                     $etapa: 1
                 }
         } */
-        Usuario.update(req.body, {
-            where: { id: req.body.id }
-        }).then(num => {
-            if (num == 1) res.send(defaultResponse(true, `O usuário foi alterado com sucesso`));
-            else res.send(defaultResponse(false, `Ocorreu um erro ao alterar o usuário usuário`));
-        }).catch(err => {
-            res.send(defaultResponse(false, `Ocorreu um erro desconhecido: ${err}`));
-        });
+
+        try {
+            const dto = req.body;
+            const usuario = await Usuario.findByPk(req.body.id);
+
+            await usuario.update(dto);
+
+            const anamnese = await Anamnese.findOne({ where: { usuarioId: dto.id } });
+
+            await anamnese.update(dto.anamnese);
+
+            res.send(defaultResponse(true, `O usuário foi alterado com sucesso`));
+        } catch(error) {
+            res.send(defaultResponse(false, error.toString()));
+        }
     },
 
     restricted_func: function (req, res) {
