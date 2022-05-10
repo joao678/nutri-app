@@ -22,7 +22,7 @@ const PerguntarNivelAtividade = function ({ usuario, isUserLogged, setUserLogged
             if (!success) return;
             e.preventDefault();
 
-            history.push(`/home`);
+            history.push(`/home`, { usuario: usuario });
         });
     }
 

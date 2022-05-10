@@ -21,7 +21,7 @@ const ConfirmarUsuario = function ({ isUserLogged, setUserLogged, id }) {
             setMensagem('Usuario confirmado com sucesso!');
     
             setTimeout(() => {
-                history.push('/');
+                history.push('/', { usuario: content });
             }, 5000);
         });
     }, []);

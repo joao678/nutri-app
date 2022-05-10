@@ -153,10 +153,12 @@ const usuarioController = {
                     $id: "",
                 }
         } */
+        const usuario = await Usuario.findOne({ where: { id: req.body.id } });
+
         Usuario.update({ confirmado: true }, {
             where: { id: req.body.id }
         }).then(num => {
-            if (num == 1) res.send(defaultResponse(true, `O usuário foi confirmado com sucesso`));
+            if (num == 1) res.send(defaultResponse(true, `O usuário foi confirmado com sucesso`, usuario));
             else res.send(defaultResponse(false, `Ocorreu um erro ao confirmar o usuário`));
         }).catch(err => {
             res.send(defaultResponse(false, `Ocorreu um erro desconhecido: ${err}`));

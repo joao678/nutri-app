@@ -35,33 +35,11 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         [mostrarActionSheet] = useIonActionSheet();
 
     useEffect(()=>{
-        /* let quantidadeAgua = usuario.anamnese.agua_diarios.reduce((valorAnterior, valorAtual) => valorAnterior + valorAtual.quantidade, 0);
-        let numCopo = 1;
-        while(numCopo <= 4) {
-            let porcentagem = (100 * quantidadeAgua) / 150;
-            if(porcentagem > 100) porcentagem = 100;
-            switch (numCopo) {
-                case 1:
-                    setStyleCopoLiquido1({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` });
-                    break;
-                case 2:
-                    setStyleCopoLiquido2({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` });
-                    break;
-                case 3:
-                    setStyleCopoLiquido3({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` }) 
-                    break;
-                case 4:
-                    setStyleCopoLiquido4({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` }) 
-                    break;
-            }
-
-            quantidadeAgua -= 150;
-            numCopo += 1;
-        } */
         atualizarCoposAgua();
     },[]);
 
     function atualizarCoposAgua() {
+        if(!usuario) return;
         let quantidadeAgua = usuario.anamnese.agua_diarios.reduce((valorAnterior, valorAtual) => valorAnterior + valorAtual.quantidade, 0);
         let numCopo = 1;
         while(numCopo <= 4) {

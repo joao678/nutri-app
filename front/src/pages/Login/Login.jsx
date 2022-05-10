@@ -7,8 +7,8 @@ import './Login.css';
 
 const Login = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),
-        [email, setEmail] = useState('joao678@gmail.com'),
-        [password, setPassword] = useState('v12fv452'),
+        [email, setEmail] = useState(''),
+        [password, setPassword] = useState(''),
         [loginErro, setLoginErro] = useState({ temErro: false, mensagem: '' });
 
     function doLogin(e, setUserLogged) {

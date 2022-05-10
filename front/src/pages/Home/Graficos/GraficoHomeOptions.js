@@ -13,7 +13,8 @@ export default {
         ...GraficoDefaultTitleOptions
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        enabled: false
+        //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
     },
     accessibility: {
         point: {
@@ -38,7 +39,7 @@ export default {
     },
     series: [{
         type: 'pie',
-        name: 'Browser share',
+        name: 'Calorias',
         innerSize: '90%',
         data: [
             ['0/2500 kcal', 50]
