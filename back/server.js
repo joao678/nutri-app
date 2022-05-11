@@ -17,8 +17,6 @@ export default function () {
     };*/
     let corsOptions = {
         origin: [ "http://10.0.0.100:3000", "http://localhost:3000" ],
-        //origin: "http://localhost:3000",
-        //origin: "http://localhost:8100",
         credentials: true,
         exposedHeaders: true
     };
@@ -33,10 +31,6 @@ export default function () {
         resave: true,
         saveUninitialized: false
     }));
-
-    /*app.get('/', (req, res) => {
-      res.json({ message: "Servidor backend rodando." });
-    });*/
 
     app.get('/', (req, res) => {
         res.redirect('/swagger');
