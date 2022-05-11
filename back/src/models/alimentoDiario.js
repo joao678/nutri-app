@@ -8,8 +8,6 @@ export default function (sequelize, Sequelize) {
         data_consumo: { type: Sequelize.DATE },
         periodo: { type: Sequelize.INTEGER },
     });
-    
-    AlimentoDiario.hasOne(alimento(sequelize, Sequelize));
 
     return AlimentoDiario;
 }

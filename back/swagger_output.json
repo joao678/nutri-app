@@ -325,20 +325,6 @@
         }
       }
     },
-    "/api/usuarios/restricted_func": {
-      "get": {
-        "tags": [
-          "Usuário"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/agua/adicionarAgua": {
       "post": {
         "tags": [

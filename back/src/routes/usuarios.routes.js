@@ -24,18 +24,4 @@ router.post("/confirmar", usuarioController.confirmar);
 //alterarUsuario
 router.post("/:id/alterar", usuarioController.alterarUsuario);
 
-//restricted_func
-router.get("/restricted_func", usuarioController.restricted_func);
-
-//read
-// router.get("/", usuarioController.findAll);
-// router.get("/:id", usuarioController.findOne);
-
-// //update
-// router.put("/:id", usuarioController.update);
-
-// //delete
-// router.delete("/:id", usuarioController.delete);
-// router.delete("/", usuarioController.deleteAll);
-
 export default router;

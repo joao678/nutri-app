@@ -1,5 +1,3 @@
-import exercicio from "./exercicio.js";
-
 export default function (sequelize, Sequelize) {
     const ExercicioDiario = sequelize.define("exercicio_diario", {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
