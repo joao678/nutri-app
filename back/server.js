@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -12,11 +13,8 @@ export default function () {
     const app = express();
     const swaggerConfig = JSON.parse(fs.readFileSync('./swagger_output.json'));
 
-    /*let corsOptions = {
-      origin: "*"
-    };*/
     let corsOptions = {
-        origin: [ "http://10.0.0.100:3000", "http://localhost:3000" ],
+        origin: [ `http://${process.env.HOST}:3000` ],
         credentials: true,
         exposedHeaders: true
     };

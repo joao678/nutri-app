@@ -1,5 +1,6 @@
 {
     "ignore": [
-        "swagger_output.json"
+        "swagger_output.json",
+        ".env"
     ]
 }
