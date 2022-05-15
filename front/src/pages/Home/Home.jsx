@@ -7,44 +7,49 @@ import {
     IonInput,
     IonItem,
     IonLabel,
-    IonLoading,
-    IonModal,
-    useIonActionSheet
+    IonList, IonLoading,
+    IonModal, useIonActionSheet,
+    useIonAlert
 } from '@ionic/react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { add, bicycle, pizza, water } from 'ionicons/icons';
+import { add, bicycle, pizza, search, water } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
+import { aviso } from '../../components/Aviso/Aviso';
 import Pagina from '../../components/Pagina/Pagina';
-import GraficoHomeOptions from './Graficos/GraficoHomeOptions.js';
 import aguaController from '../../services/Agua';
+import exercicioController from '../../services/Exercicio';
+import GraficoHomeOptions from './Graficos/GraficoHomeOptions.js';
 import './Home.css';
 import './ModalHome.css';
-import { aviso } from '../../components/Aviso/Aviso';
 
 const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     const [options, setOptions] = useState(GraficoHomeOptions),
         [isAguaModalOpen, setIsAguaModalOpen] = useState(false),
+        [isExercicioModalOpen, setIsExercicioModalOpen] = useState(false),
         [quantidadeAgua, setQuantidadeAgua] = useState(0),
         [showLoading, setShowLoading] = useState(false),
         [styleCopoLiquido1, setStyleCopoLiquido1] = useState({}),
         [styleCopoLiquido2, setStyleCopoLiquido2] = useState({}),
         [styleCopoLiquido3, setStyleCopoLiquido3] = useState({}),
         [styleCopoLiquido4, setStyleCopoLiquido4] = useState({}),
+        [listaExercicios, setlistaExercicios] = useState(),
+        [alerta] = useIonAlert(),
         modalAgua = useRef(),
+        modalExercicio = useRef(),
         [mostrarActionSheet] = useIonActionSheet();
 
-    useEffect(()=>{
+    useEffect(() => {
         atualizarCoposAgua();
-    },[]);
+    }, []);
 
     function atualizarCoposAgua() {
-        if(!usuario) return;
+        if (!usuario) return;
         let quantidadeAgua = usuario.anamnese.agua_diarios.reduce((valorAnterior, valorAtual) => valorAnterior + valorAtual.quantidade, 0);
         let numCopo = 1;
-        while(numCopo <= 4) {
+        while (numCopo <= 4) {
             let porcentagem = (100 * quantidadeAgua) / 150;
-            if(porcentagem > 100) porcentagem = 100;
+            if (porcentagem > 100) porcentagem = 100;
             switch (numCopo) {
                 case 1:
                     setStyleCopoLiquido1({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` });
@@ -53,10 +58,10 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
                     setStyleCopoLiquido2({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` });
                     break;
                 case 3:
-                    setStyleCopoLiquido3({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` }) 
+                    setStyleCopoLiquido3({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` })
                     break;
                 case 4:
-                    setStyleCopoLiquido4({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` }) 
+                    setStyleCopoLiquido4({ clipPath: `polygon(0% ${100 - porcentagem}%, 100% ${100 - porcentagem}%, 100% 100%, 0 100%)` })
                     break;
             }
 
@@ -65,14 +70,24 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         }
     }
 
+    function recuperarExercicios(e) {
+        exercicioController.recuperarExercicios({}, function (content, message, success) {
+            if (!success) return alerta(aviso(message));
+
+            setlistaExercicios(content.map((exercicio) => (
+                <IonItem key={exercicio.id}>
+                    <IonLabel color='primary'>{exercicio.descricao}</IonLabel>
+                </IonItem>
+            )));
+        });
+    }
+
     function onClickActionSheetOpcoesAdicionar(e) {
         mostrarActionSheet({
             buttons: [
-                {
-                    text: 'Adicionar água', icon: water, handler: () => setIsAguaModalOpen(true)
-                },
+                { text: 'Adicionar água', icon: water, handler: () => setIsAguaModalOpen(true) },
                 { text: 'Adicionar alimentação', icon: pizza },
-                { text: 'Adicionar exercício', icon: bicycle },
+                { text: 'Adicionar exercício', icon: bicycle, handler: function () { recuperarExercicios(); setIsExercicioModalOpen(true); } },
             ]
         })
     }
@@ -83,8 +98,8 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         };
 
         setShowLoading(true);
-        aguaController.adicionarAgua(dto, function(content, message, success) {
-            if(!success) alert(aviso(message));
+        aguaController.adicionarAgua(dto, function (content, message, success) {
+            if (!success) alerta(aviso(message));
             setShowLoading(false);
             setQuantidadeAgua(0);
 
@@ -95,7 +110,9 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
 
     return (
         <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+
             <IonLoading isOpen={showLoading} message={'Aguarde...'} />
+
             <IonModal ref={modalAgua} className='modal-agua' isOpen={isAguaModalOpen} onDidDismiss={() => setIsAguaModalOpen(false)}>
                 <IonContent force-overscroll="false">
                     <div className='vbox' style={{ height: '100%', alignContent: 'space-between' }}>
@@ -111,6 +128,24 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
                         </div>
                     </div>
                 </IonContent>
+            </IonModal>
+
+            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => setIsExercicioModalOpen(false)}>
+                <IonItem slot='fixed' style={{ overflow: 'auto' }}>
+                    <IonInput inputmode='search' inputMode='search' value={quantidadeAgua} onIonChange={e => setQuantidadeAgua(e.detail.value)}></IonInput>
+                    <IonIcon slot='end' icon={search}></IonIcon>
+                </IonItem>
+                <IonContent>
+                    <IonList>
+                        {listaExercicios}
+                    </IonList>
+                </IonContent>
+                <IonItem slot='fixed' style={{ bottom: '0', width: '100%' }}>
+                    <IonButton style={{ flex: '1' }} expand='full' fill='clear' onClick={(e) => {
+                        modalAgua.current.dismiss();
+                        salvarQuantidadeAgua();
+                    }}>OK</IonButton>
+                </IonItem>
             </IonModal>
 
             <div className="vbox" style={{ height: '100%', gridTemplateRows: '1fr 1fr 0fr 1fr' }}>

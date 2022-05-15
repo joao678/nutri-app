@@ -10,10 +10,10 @@ import './Etapas.css';
 const PerguntarAltura = function ({ usuario, isUserLogged, setUserLogged }) {
     const history = useHistory(),
         [altura, setAltura] = useState(0.0),
-        [alert] = useIonAlert();
+        [alerta] = useIonAlert();
 
     function proxEtapa(e, setUserLogged) {
-        if(altura === 0) return alert(aviso('A altura não deve ser igual a 0'));
+        if(altura === 0) return alerta(aviso('A altura não deve ser igual a 0'));
 
         usuario.etapa += 1;
         usuario.altura = altura;

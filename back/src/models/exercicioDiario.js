@@ -1,8 +1,9 @@
 export default function (sequelize, Sequelize) {
     const ExercicioDiario = sequelize.define("exercicio_diario", {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
-        tempo_min: { type: Sequelize.INTEGER },
-        data_praticado: { type: Sequelize.DATE }
+        codigo_exercicio: { type: Sequelize.INTEGER },
+        tempo: { type: Sequelize.TIME },
+        data_praticada: { type: Sequelize.DATE }
     });
 
     return ExercicioDiario;

@@ -4,11 +4,13 @@ import { useHistory } from 'react-router';
 import Pagina from '../../../components/Pagina/Pagina';
 import usuarioController from '../../../services/Usuario';
 
+const debug = true;
+
 const Cadastro = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),
-        [email, setEmail] = useState(''),
-        [emailConfirmacao, setEmailConfirmacao] = useState(''),
-        [password, setPassword] = useState(''),
+        [email, setEmail] = useState(debug === true ? 'joao678@gmail.com': ''),
+        [emailConfirmacao, setEmailConfirmacao] = useState(debug === true ? 'joao678@gmail.com': ''),
+        [password, setPassword] = useState(debug === true ? 'v12fv452': ''),
         [erro, setErro] = useState({ temErro: false, mensagem: '' }),
         [showLoading, setShowLoading] = useState(false);
 

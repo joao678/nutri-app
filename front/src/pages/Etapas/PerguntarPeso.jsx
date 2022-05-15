@@ -10,10 +10,10 @@ import './Etapas.css';
 const PerguntarPeso = function ({ usuario, isUserLogged, setUserLogged }) {
     const history = useHistory(),
         [peso, setPeso] = useState(0.0),
-        [alert] = useIonAlert();
+        [alerta] = useIonAlert();
 
     function proxEtapa(e, setUserLogged) {
-        if(peso === 0) return alert(aviso('O peso não deve ser igual a 0'));
+        if(peso === 0) return alerta(aviso('O peso não deve ser igual a 0'));
 
         usuario.etapa += 1;
         usuario.peso = peso;

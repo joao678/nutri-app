@@ -355,6 +355,72 @@
           }
         }
       }
+    },
+    "/api/exercicio/recuperarExercicios": {
+      "get": {
+        "tags": [
+          "Água"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Água",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "quantidade": {
+                  "type": "number",
+                  "example": 0
+                }
+              },
+              "required": [
+                "quantidade"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/exercicio/adicionarExercicio": {
+      "post": {
+        "tags": [
+          "Exercício"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Exercício",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "codigo_exercicio": {
+                  "type": "number",
+                  "example": 0
+                },
+                "tempo": {
+                  "type": "string",
+                  "example": "00:00:00"
+                }
+              },
+              "required": [
+                "codigo_exercicio"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   }
 }

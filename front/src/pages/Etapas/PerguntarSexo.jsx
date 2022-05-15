@@ -10,10 +10,10 @@ import './Etapas.css';
 const PerguntarSexo = function ({ usuario, isUserLogged, setUserLogged }) {
     const history = useHistory(),
         [sexo, setSexo] = useState(null),
-        [alert] = useIonAlert();
+        [alerta] = useIonAlert();
 
     function proxEtapa(e, setUserLogged) {
-        if (!sexo) return alert(aviso('Escolha um gênero'));
+        if (!sexo) return alerta(aviso('Escolha um gênero'));
 
         usuario.etapa += 1;
         usuario.sexo = sexo;

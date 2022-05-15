@@ -12,11 +12,11 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
         [modalAberto, setModalAberto] = useState(false),
         [tipoMeta, setTipoMeta] = useState('perder'),
         [pesoMeta, setPesoMeta] = useState(0),
-        [alert] = useIonAlert(),
+        [alerta] = useIonAlert(),
         modalMeta = useRef();
 
     function proxEtapa(e) {
-        if (pesoMeta === 0 && tipoMeta !== 'manter') return alert(aviso('A meta de peso não deve ser igual a 0'));
+        if (pesoMeta === 0 && tipoMeta !== 'manter') return alerta(aviso('A meta de peso não deve ser igual a 0'));
 
         switch (tipoMeta) {
             case 'perder':

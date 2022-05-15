@@ -6,11 +6,11 @@ import { aviso } from '../Aviso/Aviso';
 
 const Pagina = function ({ children, title, isUserLogged, setUserLogged}) {
     const history = useHistory(),
-        [alert] = useIonAlert();
+        [alerta] = useIonAlert();
 
     function doLogout(e, setUserLogged) {
         usuarioController.logout({}, function(content, message, success) {
-            if(!success) alert(aviso(message));
+            if(!success) alerta(aviso(message));
             e.preventDefault();
             sessionStorage.clear();
             setUserLogged(false);

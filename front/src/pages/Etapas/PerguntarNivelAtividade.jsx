@@ -11,10 +11,10 @@ const PerguntarNivelAtividade = function ({ usuario, isUserLogged, setUserLogged
     const history = useHistory(),
         [nivelAtividade, setNivelAtividade] = useState(null),
         [textoNivelAtividade, setTextoNivelAtividade] = useState(null),
-        [alert] = useIonAlert();
+        [alerta] = useIonAlert();
 
     function proxEtapa(e, setUserLogged) {
-        if (nivelAtividade === null) return alert(aviso('Informe um nível de atividade física'));
+        if (nivelAtividade === null) return alerta(aviso('Informe um nível de atividade física'));
 
         usuario.etapa += 1;
         usuario.anamnese.nivel_atividade = nivelAtividade;

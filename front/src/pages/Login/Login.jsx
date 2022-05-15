@@ -5,10 +5,12 @@ import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Login.css';
 
+const debug = true;
+
 const Login = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),
-        [email, setEmail] = useState(''),
-        [password, setPassword] = useState(''),
+        [email, setEmail] = useState(debug === true ? 'joao678@gmail.com': ''),
+        [password, setPassword] = useState(debug === true ? 'v12fv452': ''),
         [loginErro, setLoginErro] = useState({ temErro: false, mensagem: '' });
 
     function doLogin(e, setUserLogged) {

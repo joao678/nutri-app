@@ -12,12 +12,12 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
     const history = useHistory(),
         [informarIdadeTexto, setInformarIdadeTexto] = useState(),
         [dataNasc, setDataNasc] = useState(),
-        [alert] = useIonAlert(),
+        [alerta] = useIonAlert(),
         dateTimeDataNasc = useRef();
 
     function proxEtapa(e, setUserLogged) {
-        if (!dataNasc) return alert(aviso('É necessário informar uma data de nascimento'));
-        if (!isDate(dataNasc)) return alert(aviso('Informe uma data válida'));
+        if (!dataNasc) return alerta(aviso('É necessário informar uma data de nascimento'));
+        if (!isDate(dataNasc)) return alerta(aviso('Informe uma data válida'));
 
         usuario.etapa += 1;
         usuario.data_nasc = dataNasc;
@@ -40,7 +40,7 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
                 <IonContent force-overscroll="false">
                     <IonDatetime presentation='date' ref={dateTimeDataNasc} onIonChange={e => {
                         const parsedDate = parseISO(e.detail.value);
-                        if (isAfter(parsedDate, new Date())) return alert(aviso('A data de nascimento não deve ser após hoje.'));
+                        if (isAfter(parsedDate, new Date())) return alerta(aviso('A data de nascimento não deve ser após hoje.'));
                         setInformarIdadeTexto(formatDate(e.detail.value))
                         setDataNasc(parsedDate);
                         dateTimeDataNasc.current.confirm(true);
