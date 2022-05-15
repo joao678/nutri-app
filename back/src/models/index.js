@@ -7,7 +7,7 @@ import aguaDiario from './aguaDiario.js';
 import alimento from './alimento.js';
 import alimentoDiario from './alimentoDiario.js';
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+/* const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
     operatorsAliases: false,
@@ -18,6 +18,11 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         acquire: dbConfig.pool.acquire,
         idle: dbConfig.pool.idle
     }
+}); */
+
+const sequelize = new Sequelize({
+    storage: dbConfig.storage,
+    dialect: dbConfig.dialect,
 });
 
 const modelIndex = {

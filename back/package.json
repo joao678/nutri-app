@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "run": "node swagger.js",
-    "live-restart": "nodemon --config nodemon.json swagger.js"
+    "live-restart": "nodemon --config nodemon.json swagger.js",
+    "ip": "node ip.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.8",
     "swagger-autogen": "^2.20.7",
     "swagger-ui-express": "^4.3.0",
     "typescript": "^4.3.5"

@@ -1,5 +1,7 @@
 {
     "ignore": [
-        "swagger_output.json"
+        "swagger_output.json",
+        "db.sqlite",
+        "db.sqlite-journal"
     ]
 }
