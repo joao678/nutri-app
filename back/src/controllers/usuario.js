@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import enviarEmail from '../../email.js';
 import defaultResponse from '../core/base.response.js';
@@ -33,7 +34,7 @@ const usuarioController = {
             return enviarEmail(
                 req.body.email,
                 'Confirmar usuário - Nutri App',
-                `<a href="http://10.0.0.100:3000/confirmar-usuario/${usuarioEntidade.id}">Clique aqui para confirmar seu usuário</a>`,
+                `<a href="http://${process.env.HOST}:3000/confirmar-usuario/${usuarioEntidade.id}">Clique aqui para confirmar seu usuário</a>`,
                 () => {
                     return res.send(defaultResponse(true, `O email de confirmação foi enviado`));
                 });
@@ -52,12 +53,43 @@ const usuarioController = {
                 }
         } */
         try {
+            const TODAY_START = new Date().setHours(0, 0, 0, 0);
+            const NOW = new Date();
+
             const usuario = await Usuario.findOne({
                 where: { email: { [Op.like]: req.body.email } },
-                //include: Anamnese
                 include: [{
                     model: Anamnese,
-                    include: AguaDiario
+                    include: {
+                        model: AguaDiario,
+                        required: false,
+                        where: {
+                            data_consumo: {
+                                [Op.gt]: TODAY_START,
+                                [Op.lt]: NOW
+                            }
+                        }
+                    },
+                    /* include: {
+                        model: ExercicioDiario,
+                        required: false,
+                        where: {
+                            data_praticada: {
+                                [Op.gt]: TODAY_START,
+                                [Op.lt]: NOW
+                            }
+                        }
+                    },
+                    include: {
+                        model: AlimentoDiario,
+                        required: false,
+                        where: {
+                            data_consumo: {
+                                [Op.gt]: TODAY_START,
+                                [Op.lt]: NOW
+                            }
+                        }
+                    }, */
                 }]
             });
 
@@ -68,13 +100,6 @@ const usuarioController = {
                 req.session.usuarioId = usuario.id;
                 req.session.username = req.body.email;
                 req.session.save();
-
-                /* const anamnese = await Anamnese.findOne({ where: { usuarioId: usuario.id } });
-                const aguaDiario = await AguaDiario.findOne({ where: { anamneseId: anamnese.id } });  */
-
-                /* usuario.agua_diario = {
-                    quantidade: aguaDiario.quantidade
-                }; */
 
                 return res.send(defaultResponse(true, "Logado com sucesso!!!", usuario));
             }
@@ -203,7 +228,7 @@ const usuarioController = {
             await anamnese.update(dto.anamnese);
 
             res.send(defaultResponse(true, `O usuário foi alterado com sucesso`));
-        } catch(error) {
+        } catch (error) {
             res.send(defaultResponse(false, error.toString()));
         }
     }

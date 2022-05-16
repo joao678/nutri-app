@@ -36,25 +36,6 @@ const App = function () {
     const etapa = sessionStorage.getItem("etapa");
 
     return (
-        // <IonApp>
-        //     <IonReactRouter>
-        //         <IonTabs>
-        //             <IonRouterOutlet>
-        //                 <BaseRoutes isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa} />
-        //             </IonRouterOutlet>
-        //             <IonTabBar slot="bottom" style={isUserLogged && parseInt(etapa) === 8 ? {} : { display: 'none' }}>
-        //                 <IonTabButton tab="home" href="/home">
-        //                     <IonIcon icon={home} />
-        //                     <IonLabel>Home</IonLabel>
-        //                 </IonTabButton>
-        //                 <IonTabButton tab="tabela-alimentos" href="/tabela-alimentos">
-        //                     <IonIcon icon={serverOutline} />
-        //                     <IonLabel>Tabela de alimentos</IonLabel>
-        //                 </IonTabButton>
-        //             </IonTabBar>
-        //         </IonTabs>
-        //     </IonReactRouter>
-        // </IonApp>
         <IonApp>
             <IonReactRouter>
                 <IonRouterOutlet>

@@ -6,7 +6,7 @@ export default function (sequelize, Sequelize) {
         quantidade: { type: Sequelize.DECIMAL },
         qtd_fracionado: { type: Sequelize.DECIMAL },
         data_consumo: { type: Sequelize.DATE },
-        periodo: { type: Sequelize.INTEGER },
+        data_consumo: { type: Sequelize.DATE }
     });
 
     return AlimentoDiario;

@@ -38,9 +38,6 @@ modelIndex.anamnese.belongsTo(modelIndex.usuarios);
 modelIndex.alimentoDiario.hasOne(modelIndex.alimento);
 modelIndex.alimento.belongsTo(modelIndex.alimentoDiario);
 
-/* modelIndex.exercicioDiario.hasOne(modelIndex.exercicio);
-modelIndex.exercicio.belongsTo(modelIndex.exercicioDiario); */
-
 modelIndex.anamnese.hasMany(modelIndex.aguaDiario);
 modelIndex.aguaDiario.belongsTo(modelIndex.anamnese);
 
