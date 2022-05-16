@@ -1,6 +1,8 @@
 {
     "ignore": [
         "swagger_output.json",
-        ".env"
+        ".env",
+        "db.sqlite",
+        "db.sqlite-journal"
     ]
 }
