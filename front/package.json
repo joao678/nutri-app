@@ -21,6 +21,7 @@
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
+    "dotenv": "^16.0.1",
     "highcharts": "^10.0.0",
     "highcharts-react-official": "^3.1.0",
     "ionicons": "^5.4.0",
@@ -45,10 +46,10 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
-    "eject": "react-scripts eject"
+    "start": "node findIP.js && react-scripts start",
+    "build": "node findIP.js && react-scripts build",
+    "test": "node findIP.js && react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "eject": "node findIP.js && react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

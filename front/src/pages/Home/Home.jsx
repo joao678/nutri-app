@@ -1,6 +1,7 @@
 import {
     IonButton,
     IonContent,
+    IonDatetime,
     IonFab,
     IonFabButton,
     IonIcon,
@@ -11,6 +12,7 @@ import {
     IonModal, useIonActionSheet,
     useIonAlert
 } from '@ionic/react';
+import { format, formatISO, startOfToday } from 'date-fns';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { add, bicycle, pizza, search, water } from 'ionicons/icons';
@@ -27,21 +29,44 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     const [options, setOptions] = useState(GraficoHomeOptions),
         [isAguaModalOpen, setIsAguaModalOpen] = useState(false),
         [isExercicioModalOpen, setIsExercicioModalOpen] = useState(false),
+        [isExercicioDataPraticadaModalOpen, setIsExercicioDataPraticadaModalOpen] = useState(false),
         [quantidadeAgua, setQuantidadeAgua] = useState(0),
+        [pesquisaExercicio, setPesquisaExercicio] = useState(''),
+        [tempoPraticado, setTempoPraticado] = useState(formatISO(startOfToday())),
         [showLoading, setShowLoading] = useState(false),
         [styleCopoLiquido1, setStyleCopoLiquido1] = useState({}),
         [styleCopoLiquido2, setStyleCopoLiquido2] = useState({}),
         [styleCopoLiquido3, setStyleCopoLiquido3] = useState({}),
         [styleCopoLiquido4, setStyleCopoLiquido4] = useState({}),
-        [listaExercicios, setlistaExercicios] = useState(),
+        [listaExerciciosBase, setListaExerciciosBase] = useState([]),
+        [listaExercicios, setlistaExercicios] = useState([]),
         [alerta] = useIonAlert(),
         modalAgua = useRef(),
         modalExercicio = useRef(),
+        modalDataExercicioTempoPraticado = useRef(),
+        dateTimeTempoPraticado = useRef(),
+        refTempoPraticado = useRef(tempoPraticado),
         [mostrarActionSheet] = useIonActionSheet();
 
     useEffect(() => {
         atualizarCoposAgua();
     }, []);
+
+    useEffect(() => {
+        refTempoPraticado.current = tempoPraticado;
+    });
+
+    useEffect(() => {
+        if (!listaExercicios) return;
+
+        if (!pesquisaExercicio) return setlistaExercicios(listaExerciciosBase.map((exercicio) => (
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
+        )));
+
+        setlistaExercicios(listaExerciciosBase.filter((exercicioBase) => exercicioBase.descricao.toLowerCase().includes(pesquisaExercicio)).map((exercicio) => (
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
+        )));
+    }, [pesquisaExercicio]);
 
     function atualizarCoposAgua() {
         if (!usuario) return;
@@ -73,11 +98,9 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     function recuperarExercicios(e) {
         exercicioController.recuperarExercicios({}, function (content, message, success) {
             if (!success) return alerta(aviso(message));
-
+            setListaExerciciosBase(content);
             setlistaExercicios(content.map((exercicio) => (
-                <IonItem key={exercicio.id}>
-                    <IonLabel color='primary'>{exercicio.descricao}</IonLabel>
-                </IonItem>
+                <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
             )));
         });
     }
@@ -108,6 +131,31 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         });
     }
 
+    function ListaExercicioItem({id, descricao}) {
+        return (
+            <IonItem button onClick={function () { adicionarExercicio(id); }}>
+                <IonLabel>{descricao}</IonLabel>
+            </IonItem>
+        );
+    }
+
+    function adicionarExercicio(exercicioId) {
+        const dto = {
+            tempo: format(new Date(refTempoPraticado.current), 'HH:mm:ss'),//tempoPraticado,
+            codigo_exercicio: exercicioId
+        };
+
+        setShowLoading(true);
+        exercicioController.adicionarExercicio(dto, function (content, message, success) {
+            if (!success) alerta(aviso(message));
+            setShowLoading(false);
+            setQuantidadeAgua(0);
+
+            usuario.anamnese.exercicios.push(content);
+            modalExercicio.current.dismiss();
+        });
+    }
+
     return (
         <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
 
@@ -130,22 +178,28 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
                 </IonContent>
             </IonModal>
 
-            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => setIsExercicioModalOpen(false)}>
-                <IonItem slot='fixed' style={{ overflow: 'auto' }}>
-                    <IonInput inputmode='search' inputMode='search' value={quantidadeAgua} onIonChange={e => setQuantidadeAgua(e.detail.value)}></IonInput>
-                    <IonIcon slot='end' icon={search}></IonIcon>
-                </IonItem>
+            <IonModal ref={modalDataExercicioTempoPraticado} className='modal-exercicio-informar-tempo' isOpen={isExercicioDataPraticadaModalOpen} onDidDismiss={() => setIsExercicioDataPraticadaModalOpen(false)}>
+                <IonDatetime className='ion-datetime-modal-exercicio' presentation='time' value={tempoPraticado} ref={dateTimeTempoPraticado} onIonChange={e => { setTempoPraticado(() => e.detail.value)} }></IonDatetime>
+                <IonButton fill='clear' onClick={(e) => {
+                    modalDataExercicioTempoPraticado.current.dismiss();
+                }}>OK</IonButton>
+            </IonModal>
+
+            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => { setIsExercicioModalOpen(false); setPesquisaExercicio(''); }}>
+                <div slot='fixed'>
+                    <IonItem button onClick={() => setIsExercicioDataPraticadaModalOpen(true)}>
+                        <IonLabel color='primary'>{format(new Date(tempoPraticado), 'HH:mm') !== '00:00' ? `Tempo praticado: ${format(new Date(tempoPraticado), "H 'horas e 'm' minutos'")}` : 'Informe o tempo...'}</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonInput inputmode='search' inputMode='search' value={pesquisaExercicio} onIonChange={e => setPesquisaExercicio(e.detail.value)}></IonInput>
+                        <IonIcon slot='end' icon={search}></IonIcon>
+                    </IonItem>
+                </div>
                 <IonContent>
                     <IonList>
                         {listaExercicios}
                     </IonList>
                 </IonContent>
-                <IonItem slot='fixed' style={{ bottom: '0', width: '100%' }}>
-                    <IonButton style={{ flex: '1' }} expand='full' fill='clear' onClick={(e) => {
-                        modalAgua.current.dismiss();
-                        salvarQuantidadeAgua();
-                    }}>OK</IonButton>
-                </IonItem>
             </IonModal>
 
             <div className="vbox" style={{ height: '100%', gridTemplateRows: '1fr 1fr 0fr 1fr' }}>

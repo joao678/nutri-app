@@ -2,6 +2,11 @@
     --height: 120px;
 }
 
-/*.modal-exercicio {
-    --height: 300px;
-}*/
+.modal-exercicio-informar-tempo {
+    --height: 200px;
+}
+
+.modal-exercicio {
+    --height: 80vh;
+    --width: 80vw;
+}
