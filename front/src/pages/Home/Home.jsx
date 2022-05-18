@@ -45,6 +45,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         modalExercicio = useRef(),
         modalDataExercicioTempoPraticado = useRef(),
         dateTimeTempoPraticado = useRef(),
+        refTempoPraticado = useRef(tempoPraticado),
         [mostrarActionSheet] = useIonActionSheet();
 
     useEffect(() => {
@@ -52,18 +53,18 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     }, []);
 
     useEffect(() => {
+        refTempoPraticado.current = tempoPraticado;
+    });
+
+    useEffect(() => {
         if (!listaExercicios) return;
 
         if (!pesquisaExercicio) return setlistaExercicios(listaExerciciosBase.map((exercicio) => (
-            <IonItem key={exercicio.id}>
-                <IonLabel>{exercicio.descricao}</IonLabel>
-            </IonItem>
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
         )));
 
         setlistaExercicios(listaExerciciosBase.filter((exercicioBase) => exercicioBase.descricao.toLowerCase().includes(pesquisaExercicio)).map((exercicio) => (
-            <IonItem button key={exercicio.id}>
-                <IonLabel>{exercicio.descricao}</IonLabel>
-            </IonItem>
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
         )));
     }, [pesquisaExercicio]);
 
@@ -99,11 +100,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             if (!success) return alerta(aviso(message));
             setListaExerciciosBase(content);
             setlistaExercicios(content.map((exercicio) => (
-                <IonItem button key={exercicio.id} onClick={function () {
-                    modalExercicio.current.dismiss();
-                }}>
-                    <IonLabel>{exercicio.descricao}</IonLabel>
-                </IonItem>
+                <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
             )));
         });
     }
@@ -134,6 +131,31 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         });
     }
 
+    function ListaExercicioItem({id, descricao}) {
+        return (
+            <IonItem button onClick={function () { adicionarExercicio(id); }}>
+                <IonLabel>{descricao}</IonLabel>
+            </IonItem>
+        );
+    }
+
+    function adicionarExercicio(exercicioId) {
+        const dto = {
+            tempo: format(new Date(refTempoPraticado.current), 'HH:mm:ss'),//tempoPraticado,
+            codigo_exercicio: exercicioId
+        };
+
+        setShowLoading(true);
+        exercicioController.adicionarExercicio(dto, function (content, message, success) {
+            if (!success) alerta(aviso(message));
+            setShowLoading(false);
+            setQuantidadeAgua(0);
+
+            usuario.anamnese.exercicios.push(content);
+            modalExercicio.current.dismiss();
+        });
+    }
+
     return (
         <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
 
@@ -157,16 +179,16 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             </IonModal>
 
             <IonModal ref={modalDataExercicioTempoPraticado} className='modal-exercicio-informar-tempo' isOpen={isExercicioDataPraticadaModalOpen} onDidDismiss={() => setIsExercicioDataPraticadaModalOpen(false)}>
-                <IonDatetime className='ion-datetime-modal-exercicio' presentation='time' value={tempoPraticado} ref={dateTimeTempoPraticado} onIonChange={e => setTempoPraticado(e.detail.value)}></IonDatetime>
+                <IonDatetime className='ion-datetime-modal-exercicio' presentation='time' value={tempoPraticado} ref={dateTimeTempoPraticado} onIonChange={e => { setTempoPraticado(() => e.detail.value)} }></IonDatetime>
                 <IonButton fill='clear' onClick={(e) => {
                     modalDataExercicioTempoPraticado.current.dismiss();
                 }}>OK</IonButton>
             </IonModal>
 
-            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => { setIsExercicioModalOpen(false); setPesquisaExercicio(''); setTempoPraticado(formatISO(startOfToday())) }}>
+            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => { setIsExercicioModalOpen(false); setPesquisaExercicio(''); }}>
                 <div slot='fixed'>
                     <IonItem button onClick={() => setIsExercicioDataPraticadaModalOpen(true)}>
-                        <IonLabel color='primary'>{format(new Date(tempoPraticado), 'HH:mm') !== '00:00' ? `Tempo praticado: ${format(new Date(tempoPraticado), "H 'horas e ' m ' minutos'")}` : 'Informe o tempo...'}</IonLabel>
+                        <IonLabel color='primary'>{format(new Date(tempoPraticado), 'HH:mm') !== '00:00' ? `Tempo praticado: ${format(new Date(tempoPraticado), "H 'horas e 'm' minutos'")}` : 'Informe o tempo...'}</IonLabel>
                     </IonItem>
                     <IonItem>
                         <IonInput inputmode='search' inputMode='search' value={pesquisaExercicio} onIonChange={e => setPesquisaExercicio(e.detail.value)}></IonInput>
