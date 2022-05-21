@@ -7,6 +7,8 @@ import db from '../models/index.js';
 const Usuario = db.usuarios;
 const Anamnese = db.anamnese;
 const AguaDiario = db.aguaDiario;
+const ExercicioDiario = db.exercicioDiario;
+const AlimentoDiario = db.alimentoDiario;
 const Op = db.Sequelize.Op;
 
 const usuarioController = {
@@ -60,8 +62,9 @@ const usuarioController = {
                 where: { email: { [Op.like]: req.body.email } },
                 include: [{
                     model: Anamnese,
-                    include: {
+                    include: [{
                         model: AguaDiario,
+                        as: 'agua_diarios',
                         required: false,
                         where: {
                             data_consumo: {
@@ -69,27 +72,27 @@ const usuarioController = {
                                 [Op.lt]: NOW
                             }
                         }
-                    },
-                    /* include: {
+                    }, {
                         model: ExercicioDiario,
                         required: false,
+                        as: 'exercicio_diarios',
                         where: {
                             data_praticada: {
                                 [Op.gt]: TODAY_START,
                                 [Op.lt]: NOW
                             }
                         }
-                    },
-                    include: {
+                    }, {
                         model: AlimentoDiario,
                         required: false,
+                        as: 'alimento_diarios',
                         where: {
                             data_consumo: {
                                 [Op.gt]: TODAY_START,
                                 [Op.lt]: NOW
                             }
                         }
-                    }, */
+                    }]
                 }]
             });
 

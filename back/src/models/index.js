@@ -40,13 +40,16 @@ const modelIndex = {
 modelIndex.usuarios.hasOne(modelIndex.anamnese);
 modelIndex.anamnese.belongsTo(modelIndex.usuarios);
 
-modelIndex.alimentoDiario.hasOne(modelIndex.alimento);
-modelIndex.alimento.belongsTo(modelIndex.alimentoDiario);
+/* modelIndex.alimentoDiario.hasOne(modelIndex.alimento);
+modelIndex.alimento.belongsTo(modelIndex.alimentoDiario); */
 
-modelIndex.anamnese.hasMany(modelIndex.aguaDiario);
+modelIndex.anamnese.hasMany(modelIndex.alimentoDiario, { as: 'alimento_diarios'});
+modelIndex.alimentoDiario.belongsTo(modelIndex.anamnese);
+
+modelIndex.anamnese.hasMany(modelIndex.aguaDiario, { as: 'agua_diarios'});
 modelIndex.aguaDiario.belongsTo(modelIndex.anamnese);
 
-modelIndex.anamnese.hasMany(modelIndex.exercicioDiario);
+modelIndex.anamnese.hasMany(modelIndex.exercicioDiario, { as: 'exercicio_diarios' });
 modelIndex.exercicioDiario.belongsTo(modelIndex.anamnese);
 
 export default modelIndex;
