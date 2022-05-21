@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "run": "node swagger.js",
-    "live-restart": "nodemon --config nodemon.json swagger.js",
-    "ip": "node ip.js"
+    "live-restart": "node findIp.js && nodemon --config nodemon.json swagger.js"
   },
   "author": "",
   "license": "ISC",

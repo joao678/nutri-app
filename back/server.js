@@ -14,7 +14,7 @@ export default function () {
     const swaggerConfig = JSON.parse(fs.readFileSync('./swagger_output.json'));
 
     let corsOptions = {
-        origin: [ `http://${process.env.HOST}:3000` ],
+        origin: `http://${process.env.HOST}:3000`,
         credentials: true,
         exposedHeaders: true
     };

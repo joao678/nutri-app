@@ -1,5 +1,5 @@
-const { networkInterfaces } = require('os');
-const { writeFile } = require('fs');
+import { networkInterfaces } from 'os';
+import { writeFile } from 'fs';
 
 const nets = networkInterfaces();
 const networkIndex = 0;
