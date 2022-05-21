@@ -29,3 +29,4 @@ yarn-error.log*
 .eslintcache
 
 swagger_output.json
+db.sqlite
