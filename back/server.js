@@ -38,14 +38,14 @@ export default function () {
 
     setupEndpoints(app);
 
-    //db.sequelize.sync({ alter: true });
+    db.sequelize.sync({ alter: true });
 
     //Dropar tudo e recriar
-    db.sequelize.sync({ force: true }).then(function () {
-      console.log("Drop and re-sync db.");
-    }, function () {
-      console.log(arguments);
-    });
+    // db.sequelize.sync({ force: true }).then(function () {
+    //   console.log("Drop and re-sync db.");
+    // }, function () {
+    //   console.log(arguments);
+    // });
 
     const PORT = process.env.PORT || 8080;
 
