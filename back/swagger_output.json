@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "10.0.0.150:8080",
+  "host": "10.0.0.100:8080",
   "basePath": "/",
   "schemes": [
     "http"
@@ -411,6 +411,42 @@
               },
               "required": [
                 "codigo_exercicio"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/alimento/adicionarAlimento": {
+      "post": {
+        "tags": [
+          "Alimento"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Alimento",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "codigo_alimento": {
+                  "type": "number",
+                  "example": 0
+                },
+                "quantidade": {
+                  "type": "number",
+                  "example": 0
+                }
+              },
+              "required": [
+                "codigo_alimento",
+                "quantidade"
               ]
             }
           }

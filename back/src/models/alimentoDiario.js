@@ -5,7 +5,6 @@ export default function (sequelize, Sequelize) {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
         codigo_alimento: { type: Sequelize.INTEGER },
         quantidade: { type: Sequelize.DECIMAL },
-        qtd_fracionado: { type: Sequelize.DECIMAL },
         data_consumo: { type: Sequelize.DATE },
     });
 

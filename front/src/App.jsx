@@ -1,11 +1,5 @@
 import {
-    IonApp,
-    IonIcon,
-    IonLabel,
-    IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonTabs, setupIonicReact
+    IonApp, IonRouterOutlet, setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
@@ -21,13 +15,12 @@ import '@ionic/react/css/structure.css';
 import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/typography.css';
-import { home, serverOutline } from 'ionicons/icons';
 import { useState } from 'react';
 import BaseRoutes from './components/Routes/BaseRoutes';
+import './theme/charts.css';
 import './theme/utils.css';
 /* Theme variables */
 import './theme/variables.css';
-import './theme/charts.css';
 
 setupIonicReact();
 

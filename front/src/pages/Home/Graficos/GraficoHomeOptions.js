@@ -5,7 +5,7 @@ export default {
     chart: {
         ...GraficoDefaultChartOptions,
         events: {
-            load() { setTimeout(this.reflow.bind(this), 0)},
+            load() { setTimeout(this.reflow.bind(this), 100)},
         }
     },
     title: {
@@ -14,7 +14,6 @@ export default {
     },
     tooltip: {
         enabled: false
-        //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
     },
     accessibility: {
         point: {

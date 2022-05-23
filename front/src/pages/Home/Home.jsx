@@ -33,7 +33,9 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         [isAlimentoModalOpen, setIsAlimentoModalOpen] = useState(false),
         [isExercicioDataPraticadaModalOpen, setIsExercicioDataPraticadaModalOpen] = useState(false),
         [quantidadeAgua, setQuantidadeAgua] = useState(0),
+        [quantidadeAlimento, setQuantidadeAlimento] = useState(0),
         [pesquisaExercicio, setPesquisaExercicio] = useState(''),
+        [pesquisaAlimentos, setPesquisaAlimentos] = useState(''),
         [tempoPraticado, setTempoPraticado] = useState(formatISO(startOfToday())),
         [showLoading, setShowLoading] = useState(false),
         [styleCopoLiquido1, setStyleCopoLiquido1] = useState({}),
@@ -43,12 +45,15 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         [listaExerciciosBase, setListaExerciciosBase] = useState([]),
         [listaAlimentosBase, setListaAlimentosBase] = useState([]),
         [listaExercicios, setlistaExercicios] = useState([]),
+        [listaAlimentos, setlistaAlimentos] = useState([]),
         [alerta] = useIonAlert(),
         modalAgua = useRef(),
         modalExercicio = useRef(),
+        modalAlimento = useRef(),
         modalDataExercicioTempoPraticado = useRef(),
         dateTimeTempoPraticado = useRef(),
         refTempoPraticado = useRef(tempoPraticado),
+        refQuantidadeAlimento = useRef(quantidadeAlimento),
         [mostrarActionSheetAdicionarOpcoes] = useIonActionSheet();
 
     useEffect(() => {
@@ -60,20 +65,36 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     });
 
     useEffect(() => {
+        refQuantidadeAlimento.current = quantidadeAlimento;
+    });
+
+    useEffect(() => {
         if (!listaExercicios) return;
 
         if (!pesquisaExercicio) return setlistaExercicios(listaExerciciosBase.map((exercicio) => (
-            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
         )));
 
         setlistaExercicios(listaExerciciosBase.filter((exercicioBase) => exercicioBase.descricao.toLowerCase().includes(pesquisaExercicio)).map((exercicio) => (
-            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
         )));
     }, [pesquisaExercicio]);
 
+    useEffect(() => {
+        if (!listaAlimentos) return;
+
+        if (!pesquisaAlimentos) return setlistaAlimentos(listaAlimentosBase.map((alimento) => (
+            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
+        )));
+
+        setlistaAlimentos(listaAlimentosBase.filter((alimentoBase) => alimentoBase.descricao.toLowerCase().includes(pesquisaAlimentos)).map((alimento) => (
+            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
+        )));
+    }, [pesquisaAlimentos]);
+
     function atualizarCoposAgua() {
         if (!usuario) return;
-        let quantidadeAgua = usuario.anamnese.agua_diarios.reduce((valorAnterior, valorAtual) => valorAnterior + valorAtual.quantidade, 0);
+        let quantidadeAgua = usuario.anamnese.agua_diarios.reduce((valorAnterior, valorAtual) => valorAnterior + parseInt(valorAtual.quantidade), 0);
         let numCopo = 1;
         while (numCopo <= 4) {
             let porcentagem = (100 * quantidadeAgua) / 150;
@@ -99,22 +120,25 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     }
 
     function recuperarExercicios(e) {
-        exercicioController.recuperarExercicios({}, function (content, message, success) {
+        exercicioController.recuperarExercicios(function (content, message, success) {
             if (!success) return alerta(aviso(message));
             setListaExerciciosBase(content);
             setlistaExercicios(content.map((exercicio) => (
-                <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
+                <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
             )));
         });
     }
 
     function recuperarAlimentos(e) {
-        alimentoController.getAllAlimentos({}, function (content, message, success) {
+        alimentoController.getAllAlimentos(function (content, message, success) {
             if (!success) return alerta(aviso(message));
-            setListaExerciciosBase(content);
-            /* setlistaExercicios(content.map((exercicio) => (
-                <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id}/>
-            ))); */
+
+            const alimentos = content.map((alimento) => ({ id: alimento.id, descricao: alimento.description }));
+
+            setListaAlimentosBase(alimentos);
+            setlistaAlimentos(alimentos.map((exercicio) => (
+                <ListaAlimentoItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+            )));
         });
     }
 
@@ -144,7 +168,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         });
     }
 
-    function ListaExercicioItem({id, descricao}) {
+    function ListaExercicioItem({ id, descricao }) {
         return (
             <IonItem button onClick={function () { adicionarExercicio(id); }}>
                 <IonLabel>{descricao}</IonLabel>
@@ -152,9 +176,17 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         );
     }
 
+    function ListaAlimentoItem({ id, descricao }) {
+        return (
+            <IonItem button onClick={function () { adicionarAlimento(id); }}>
+                <IonLabel>{descricao}</IonLabel>
+            </IonItem>
+        );
+    }
+
     function adicionarExercicio(exercicioId) {
         const dto = {
-            tempo: format(new Date(refTempoPraticado.current), 'HH:mm:ss'),//tempoPraticado,
+            tempo: format(new Date(refTempoPraticado.current), 'HH:mm:ss'),
             codigo_exercicio: exercicioId
         };
 
@@ -162,10 +194,26 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         exercicioController.adicionarExercicio(dto, function (content, message, success) {
             if (!success) alerta(aviso(message));
             setShowLoading(false);
-            setQuantidadeAgua(0);
 
             usuario.anamnese.exercicio_diarios.push(content);
             modalExercicio.current.dismiss();
+        });
+    }
+
+    function adicionarAlimento(alimentoId) {
+        const dto = {
+            quantidade: refQuantidadeAlimento.current,
+            codigo_alimento: alimentoId
+        };
+
+        setShowLoading(true);
+        alimentoController.adicionarAlimento(dto, function (content, message, success) {
+            if (!success) alerta(aviso(message));
+            setShowLoading(false);
+            setQuantidadeAlimento(0);
+
+            usuario.anamnese.alimento_diarios.push(content);
+            modalAlimento.current.dismiss();
         });
     }
 
@@ -192,13 +240,13 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             </IonModal>
 
             <IonModal ref={modalDataExercicioTempoPraticado} className='modal-exercicio-informar-tempo' isOpen={isExercicioDataPraticadaModalOpen} onDidDismiss={() => setIsExercicioDataPraticadaModalOpen(false)}>
-                <IonDatetime className='ion-datetime-modal-exercicio' presentation='time' value={tempoPraticado} ref={dateTimeTempoPraticado} onIonChange={e => { setTempoPraticado(() => e.detail.value)} }></IonDatetime>
+                <IonDatetime className='ion-datetime-modal-exercicio' presentation='time' value={tempoPraticado} ref={dateTimeTempoPraticado} onIonChange={e => { setTempoPraticado(() => e.detail.value) }}></IonDatetime>
                 <IonButton fill='clear' onClick={(e) => {
                     modalDataExercicioTempoPraticado.current.dismiss();
                 }}>OK</IonButton>
             </IonModal>
 
-            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => { setIsExercicioModalOpen(false); setPesquisaExercicio(''); }}>
+            <IonModal ref={modalExercicio} className='modal-fullscreen' isOpen={isExercicioModalOpen} onDidDismiss={() => { setIsExercicioModalOpen(false); setPesquisaExercicio(''); }}>
                 <div slot='fixed'>
                     <IonItem button onClick={() => setIsExercicioDataPraticadaModalOpen(true)}>
                         <IonLabel color='primary'>{format(new Date(tempoPraticado), 'HH:mm') !== '00:00' ? `Tempo praticado: ${format(new Date(tempoPraticado), "H 'horas e 'm' minutos'")}` : 'Informe o tempo...'}</IonLabel>
@@ -215,19 +263,20 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
                 </IonContent>
             </IonModal>
 
-            <IonModal ref={modalExercicio} className='modal-exercicio' isOpen={isExercicioModalOpen} onDidDismiss={() => { setIsExercicioModalOpen(false); setPesquisaExercicio(''); }}>
+            <IonModal ref={modalAlimento} className='modal-fullscreen' isOpen={isAlimentoModalOpen} onDidDismiss={() => { setIsAlimentoModalOpen(false); setPesquisaAlimentos(''); }}>
                 <div slot='fixed'>
-                    <IonItem button onClick={() => setIsExercicioDataPraticadaModalOpen(true)}>
-                        <IonLabel color='primary'>{format(new Date(tempoPraticado), 'HH:mm') !== '00:00' ? `Tempo praticado: ${format(new Date(tempoPraticado), "H 'horas e 'm' minutos'")}` : 'Informe o tempo...'}</IonLabel>
+                    <IonItem>
+                        <IonLabel position="floating">Informe a quantidade consumida (g)</IonLabel>
+                        <IonInput inputMode='numeric' type='number' value={quantidadeAlimento} onIonChange={e => setQuantidadeAlimento(e.detail.value)}></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonInput inputmode='search' inputMode='search' value={pesquisaExercicio} onIonChange={e => setPesquisaExercicio(e.detail.value)}></IonInput>
+                        <IonInput inputmode='search' inputMode='search' value={pesquisaAlimentos} onIonChange={e => setPesquisaAlimentos(e.detail.value)}></IonInput>
                         <IonIcon slot='end' icon={search}></IonIcon>
                     </IonItem>
                 </div>
                 <IonContent>
                     <IonList>
-                        {listaExercicios}
+                        {listaAlimentos}
                     </IonList>
                 </IonContent>
             </IonModal>
