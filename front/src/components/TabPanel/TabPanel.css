@@ -1,0 +1,19 @@
+.tabpanel-buttons-container {
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+}
+
+.tabpanel-buttons-container input[type="radio"] {
+    appearance: none;
+}
+
+.tabpanel-buttons-container input[type="radio"] ~ label {
+    line-height: normal;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.tabpanel-buttons-container input[type="radio"]:checked ~ label {
+    border-bottom: 1px solid var(--ion-color-primary, #3880ff);
+}

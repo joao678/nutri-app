@@ -1,10 +1,12 @@
 import { IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonRouterOutlet, IonSelect, IonSelectOption, IonSplitPane, IonTab, IonTabBar, IonTabButton, IonTabs, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
 import { format, isAfter, parseISO } from 'date-fns';
 import { exitOutline, settingsOutline } from 'ionicons/icons';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { aviso } from '../../components/Aviso/Aviso';
 import usuarioController from '../../services/Usuario';
+import TabPanel from '../TabPanel/TabPanel';
+import TabPanelButton from '../TabPanel/TabPanelButton';
 
 const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
     const history = useHistory(),
@@ -13,6 +15,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
         [altura, setAltura] = useState(0.0),
         [peso, setPeso] = useState(0.0),
         [dataNasc, setDataNasc] = useState(),
+        [usuarioActiveTabIndex, setUsuarioActiveTabIndex] = useState(0),
         [informarIdadeTexto, setInformarIdadeTexto] = useState(),
         [sexo, setSexo] = useState(),
         dateTimeDataNasc = useRef(),
@@ -49,7 +52,11 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
             </IonHeader>
             <IonContent fullscreen>
                 <IonModal ref={modalAlterarUsuario} className='modal-fullscreen' isOpen={isModalAlterarUsuarioOpen} onDidDismiss={() => { setIsModalAlterarUsuarioOpen(false); }}>
-                    <IonContent>
+                    <TabPanel slot='fixed' setActiveTab={setUsuarioActiveTabIndex} name='tabPanelAlterarUsuario'>
+                        <TabPanelButton active={true}>teste 1</TabPanelButton>
+                        <TabPanelButton>teste 2</TabPanelButton>
+                    </TabPanel>
+                    <IonContent hidden={usuarioActiveTabIndex !== 0}>
                         <IonItem>
                             <IonLabel position="floating">Peso (Kg)</IonLabel>
                             <IonInput type="number" value={peso} onIonChange={e => setPeso(e.detail.value)}></IonInput>
@@ -76,6 +83,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                             dateTimeDataNasc.current.confirm(false);
                         }} />
                     </IonContent>
+                    <IonContent hidden={usuarioActiveTabIndex !== 1}></IonContent>
                     <IonButton slot='fixed' fill='clear' onClick={(e) => {
                         //modalAgua.current.dismiss();
                         //salvarQuantidadeAgua();
