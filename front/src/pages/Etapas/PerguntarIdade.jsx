@@ -38,7 +38,7 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
         <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
             <IonModal trigger="open-modal">
                 <IonContent force-overscroll="false">
-                    <IonDatetime presentation='date' ref={dateTimeDataNasc} onIonChange={e => {
+                    <IonDatetime className='perguntar-idade-iondatetime' presentation='date' ref={dateTimeDataNasc} onIonChange={e => {
                         const parsedDate = parseISO(e.detail.value);
                         if (isAfter(parsedDate, new Date())) return alerta(aviso('A data de nascimento não deve ser após hoje.'));
                         setInformarIdadeTexto(formatDate(e.detail.value))

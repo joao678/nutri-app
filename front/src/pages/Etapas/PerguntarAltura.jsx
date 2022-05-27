@@ -33,7 +33,7 @@ const PerguntarAltura = function ({ usuario, isUserLogged, setUserLogged }) {
                     <div className='hbox' style={{ gridTemplateColumns: '1fr' }}>
                         <IonItem>
                             <IonLabel position="floating">Altura (Cm)</IonLabel>
-                            <IonInput autocomplete='cc-number' type="number" value={altura} onIonChange={e => setAltura(e.detail.value)}></IonInput>
+                            <IonInput  type="number" value={altura} onIonChange={e => setAltura(e.detail.value)}></IonInput>
                         </IonItem>
                     </div>
                     <div>

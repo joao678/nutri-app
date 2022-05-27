@@ -43,7 +43,7 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
                     <div className='vbox' style={{ height: '100%', alignContent: 'space-between' }}>
                         <IonItem>
                             <IonLabel position="floating">Meta de peso a {tipoMeta === 'perder' ? 'perder' : 'ganhar'} (Kg)</IonLabel>
-                            <IonInput autocomplete='cc-number' type="number" value={pesoMeta} onIonChange={e => setPesoMeta(e.detail.value)}></IonInput>
+                            <IonInput  type="number" value={pesoMeta} onIonChange={e => setPesoMeta(e.detail.value)}></IonInput>
                         </IonItem>
                         <div className='hbox'>
                             <IonButton fill='clear' onClick={(e) => modalMeta.current.dismiss()}>OK</IonButton>

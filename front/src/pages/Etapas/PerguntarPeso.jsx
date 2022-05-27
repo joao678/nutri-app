@@ -33,7 +33,7 @@ const PerguntarPeso = function ({ usuario, isUserLogged, setUserLogged }) {
                     <div className='hbox' style={{ gridTemplateColumns: '1fr' }}>
                         <IonItem>
                             <IonLabel position="floating">Peso (Kg)</IonLabel>
-                            <IonInput autocomplete='cc-number' type="number" value={peso} onIonChange={e => setPeso(e.detail.value)}></IonInput>
+                            <IonInput  type="number" value={peso} onIonChange={e => setPeso(e.detail.value)}></IonInput>
                         </IonItem>
                     </div>
                     <div>

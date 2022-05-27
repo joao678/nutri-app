@@ -28,11 +28,11 @@ ion-modal {
     --border-radius: 8px;
 }
 
-ion-modal ion-datetime {
+ion-modal .perguntar-idade-iondatetime {
     height: 382px;
 }
 
-ion-datetime {
+.perguntar-idade-iondatetime {
     height: auto;
     width: auto;
     max-width: 350px;
