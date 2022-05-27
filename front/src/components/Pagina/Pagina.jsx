@@ -53,8 +53,8 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
             <IonContent fullscreen>
                 <IonModal ref={modalAlterarUsuario} className='modal-fullscreen' isOpen={isModalAlterarUsuarioOpen} onDidDismiss={() => { setIsModalAlterarUsuarioOpen(false); }}>
                     <TabPanel slot='fixed' setActiveTab={setUsuarioActiveTabIndex} name='tabPanelAlterarUsuario'>
-                        <TabPanelButton active={true}>teste 1</TabPanelButton>
-                        <TabPanelButton>teste 2</TabPanelButton>
+                        <TabPanelButton active={true}>Usuário</TabPanelButton>
+                        <TabPanelButton>Anamnese</TabPanelButton>
                     </TabPanel>
                     <IonContent hidden={usuarioActiveTabIndex !== 0}>
                         <IonItem>
