@@ -28,6 +28,19 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
         }
 
         usuario.etapa += 1;
+
+        switch (tipoMeta) {
+            case 'perder':
+                usuario.anamnese.meta = 0;
+                break;
+            case 'manter':
+                usuario.anamnese.meta = 1;
+                break;
+            case 'ganhar':
+                usuario.anamnese.meta = 2;
+                break;
+        }
+
         usuarioController.alterarUsuario(usuario, function (content, message, success) {
             if (!success) return;
             e.preventDefault();
@@ -43,7 +56,7 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
                     <div className='vbox' style={{ height: '100%', alignContent: 'space-between' }}>
                         <IonItem>
                             <IonLabel position="floating">Meta de peso a {tipoMeta === 'perder' ? 'perder' : 'ganhar'} (Kg)</IonLabel>
-                            <IonInput  type="number" value={pesoMeta} onIonChange={e => setPesoMeta(e.detail.value)}></IonInput>
+                            <IonInput type="number" value={pesoMeta} onIonChange={e => setPesoMeta(e.detail.value)}></IonInput>
                         </IonItem>
                         <div className='hbox'>
                             <IonButton fill='clear' onClick={(e) => modalMeta.current.dismiss()}>OK</IonButton>
@@ -57,17 +70,17 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
                     <h1 className='ion-text-center'>Informe sua meta de peso</h1>
                     <div className='hbox' style={{ gridTemplateColumns: '1fr 1fr 1fr', gap: '5px', placeItems: 'center' }}>
                         <div className='botoes-centrais botao-danger botoes-centrais-grid-num-3' onClick={(e) => { setPesoMeta(0); setTipoMeta('perder'); setModalAberto(true) }}>
-                            <IonIcon icon={arrowDown}/>
+                            <IonIcon icon={arrowDown} />
                             <span>Perder peso</span>
                         </div>
 
                         <div className='botoes-centrais botao-primary botoes-centrais-grid-num-3' onClick={(e) => { setPesoMeta(0); setTipoMeta('manter'); }}>
-                            <IonIcon icon={remove}/>
+                            <IonIcon icon={remove} />
                             <span>Manter peso</span>
                         </div>
 
                         <div className='botoes-centrais botao-success botoes-centrais-grid-num-3' onClick={(e) => { setPesoMeta(0); setTipoMeta('ganhar'); setModalAberto(true) }} >
-                            <IonIcon icon={arrowUp}/>
+                            <IonIcon icon={arrowUp} />
                             <span>Ganhar peso</span>
                         </div>
                     </div>

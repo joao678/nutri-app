@@ -7,7 +7,7 @@ export default function (sequelize, Sequelize) {
         data_nasc: { type: Sequelize.DATE },
         peso: { type: Sequelize.DECIMAL },
         altura: { type: Sequelize.DECIMAL },
-        sexo: { type: Sequelize.CHAR },
+        sexo: { type: Sequelize.CHAR(1) },
         admin: { type: Sequelize.BOOLEAN },
         confirmado: { type: Sequelize.BOOLEAN, defaultValue: false, },
         etapa: { type: Sequelize.INTEGER, defaultValue: 1, }

@@ -24,4 +24,7 @@ router.post("/confirmar", usuarioController.confirmar);
 //alterarUsuario
 router.post("/:id/alterar", usuarioController.alterarUsuario);
 
+//recuperarInfoUsuarioLogado
+router.get("/recuperarInfoUsuarioLogado", usuarioController.recuperarInfoUsuarioLogado);
+
 export default router;

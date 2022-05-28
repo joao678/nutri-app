@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "10.0.0.100:8080",
+  "host": "10.0.0.150:8080",
   "basePath": "/",
   "schemes": [
     "http"
@@ -318,6 +318,20 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/usuarios/recuperarInfoUsuarioLogado": {
+      "get": {
+        "tags": [
+          "Usuário"
+        ],
+        "description": "",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"

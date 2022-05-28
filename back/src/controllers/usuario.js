@@ -113,6 +113,70 @@ const usuarioController = {
         }
     },
 
+    recuperarInfoUsuarioLogado: async function (req, res) {
+        /* #swagger.tags = ['Usuário'] */
+        try {
+            const TODAY_START = new Date().setHours(0, 0, 0, 0);
+            const NOW = new Date();
+
+            const usuario = await Usuario.findOne({
+                where: { id: req.session.usuarioId },
+                include: [{
+                    model: Anamnese,
+                    include: [{
+                        model: AguaDiario,
+                        as: 'agua_diarios',
+                        required: false,
+                        where: {
+                            data_consumo: {
+                                [Op.gt]: TODAY_START,
+                                [Op.lt]: NOW
+                            }
+                        }
+                    }, {
+                        model: ExercicioDiario,
+                        required: false,
+                        as: 'exercicio_diarios',
+                        where: {
+                            data_praticada: {
+                                [Op.gt]: TODAY_START,
+                                [Op.lt]: NOW
+                            }
+                        }
+                    }, {
+                        model: AlimentoDiario,
+                        required: false,
+                        as: 'alimento_diarios',
+                        where: {
+                            data_consumo: {
+                                [Op.gt]: TODAY_START,
+                                [Op.lt]: NOW
+                            }
+                        }
+                    }]
+                }]
+            });
+
+            /* if (!usuario) throw "Usuário inexistente.";
+
+            if (await bcrypt.compare(req.body.senha, usuario.senha)) {
+                req.session.loggedin = true;
+                req.session.usuarioId = usuario.id;
+                req.session.username = req.body.email;
+                req.session.save();
+
+                return res.send(defaultResponse(true, "Logado com sucesso!!!", usuario));
+            }
+
+            res.send(defaultResponse(false, "Senha incorreta", {})); */
+            if (!usuario) throw "Usuário inexistente.";
+
+            return res.send(defaultResponse(true, "", usuario));
+        } catch (error) {
+            res.send(defaultResponse(false, error));
+        }
+    },
+
     logout: function (req, res) {
         /* #swagger.tags = ['Usuário'] */
         if (!req.session.loggedin) return res.send(defaultResponse(false, "Primeiro efetue um login."));

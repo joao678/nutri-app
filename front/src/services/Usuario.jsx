@@ -56,4 +56,12 @@ export default {
             callback(response.data, response.message, false);
         });
     },
+
+    recuperarInfoUsuarioLogado: function (callback) {
+        apiClient.get(`usuarios/recuperarInfoUsuarioLogado`, { withCredentials: true }).then((response) => {
+            callback(response.data.Content, response.data.Message, response.data.Success);
+        }, (response) => {
+            callback(response.data, response.message, false);
+        });
+    }
 }
