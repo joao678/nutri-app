@@ -294,6 +294,36 @@ const usuarioController = {
 
             await anamnese.update(dto.anamnese);
 
+            if (usuario.data_nasc && usuario.peso && usuario.altura && usuario.sexo && anamnese.nivel_atividade) {
+                const idadeAnos = new Date().getFullYear() - new Date(usuario.data_nasc).getFullYear();
+
+                switch (usuario.sexo) {
+                    case 'm':
+                        dto.anamnese.geb = (13.75 * usuario.peso) + (5 * usuario.altura) - (6.76 * idadeAnos) + 66.5;
+                        break;
+                    case 'f':
+                        dto.anamnese.geb = (9.56 * usuario.peso) + (1.85 * usuario.altura) - (4.68 * idadeAnos) + 66.5;
+                        break;
+                }
+
+                switch (anamnese.nivel_atividade) {
+                    case 0:
+                        dto.anamnese.get = dto.anamnese.geb * 1.2;
+                        break;
+                    case 1:
+                        dto.anamnese.get = dto.anamnese.geb * 1.375;
+                        break;
+                    case 2:
+                        dto.anamnese.get = dto.anamnese.geb * 1.55;
+                        break;
+                    case 3:
+                        dto.anamnese.get = dto.anamnese.geb * 1.725;
+                        break;
+                }
+
+                await anamnese.update(dto.anamnese);
+            }
+
             res.send(defaultResponse(true, `O usuário foi alterado com sucesso`));
         } catch (error) {
             res.send(defaultResponse(false, error.toString()));

@@ -4,44 +4,51 @@ export default {
     credits: { enabled: false },
     chart: {
         ...GraficoDefaultChartOptions,
+        type: 'solidgauge',
         events: {
-            load() { setTimeout(this.reflow.bind(this), 100)},
+            load() { setTimeout(this.reflow.bind(this), 100) },
+        }
+    },
+    pane: {
+        center: ['50%', '85%'],
+        size: '140%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            innerRadius: '0%',
+            outerRadius: '0%'
         }
     },
     title: {
         text: '',
         ...GraficoDefaultTitleOptions
     },
-    tooltip: {
-        enabled: false
-    },
-    accessibility: {
-        point: {
-            valueSuffix: '%'
+    tooltip: { enabled: false },
+    yAxis: {
+        lineWidth: 0,
+        tickWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 0,
+        min: 0,
+        max: 1000,
+        title: {
+            y: -70
+        },
+        labels: {
+            y: 16
         }
     },
     plotOptions: {
-        pie: {
+        solidgauge: {
             dataLabels: {
-                enabled: true,
-                distance: -50,
-                style: {
-                    fontWeight: 'bold',
-                    color: 'white'
-                }
-            },
-            startAngle: -90,
-            endAngle: -90,
-            center: ['50%', '50%'],
-            size: '90%'
+                borderWidth: 0,
+                borderRadius: 0
+            }
         }
     },
-    series: [{
-        type: 'pie',
+    series: {
+        type: 'solidgauge',
         name: 'Calorias',
-        innerSize: '90%',
-        data: [
-            ['0/2500 kcal', 50]
-        ]
-    }]
+        data: [100],
+    }
 }

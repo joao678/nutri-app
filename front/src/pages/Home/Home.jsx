@@ -15,16 +15,21 @@ import {
 import { format, formatISO, startOfToday } from 'date-fns';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import HighchartsMore from 'highcharts/highcharts-more';
+import SolidGauge from 'highcharts/modules/solid-gauge';
 import { add, bicycle, pizza, search, water } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
 import { aviso } from '../../components/Aviso/Aviso';
 import Pagina from '../../components/Pagina/Pagina';
 import aguaController from '../../services/Agua';
-import exercicioController from '../../services/Exercicio';
 import alimentoController from '../../services/Alimentos';
+import exercicioController from '../../services/Exercicio';
 import GraficoHomeOptions from './Graficos/GraficoHomeOptions.js';
 import './Home.css';
 import './ModalHome.css';
+
+HighchartsMore(Highcharts);
+SolidGauge(Highcharts);
 
 const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     const [options, setOptions] = useState(GraficoHomeOptions),
@@ -56,41 +61,19 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         refQuantidadeAlimento = useRef(quantidadeAlimento),
         [mostrarActionSheetAdicionarOpcoes] = useIonActionSheet();
 
-    useEffect(() => {
-        atualizarCoposAgua();
-    }, []);
+    //temp
+    /* window.alterarGrafico = function (num) {
+        setOptions((prevState) => {
+            prevState.series.data = [num];
+            return {...prevState};
+        });
+    }*/
 
-    useEffect(() => {
-        refTempoPraticado.current = tempoPraticado;
-    });
-
-    useEffect(() => {
-        refQuantidadeAlimento.current = quantidadeAlimento;
-    });
-
-    useEffect(() => {
-        if (!listaExercicios) return;
-
-        if (!pesquisaExercicio) return setlistaExercicios(listaExerciciosBase.map((exercicio) => (
-            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
-        )));
-
-        setlistaExercicios(listaExerciciosBase.filter((exercicioBase) => exercicioBase.descricao.toLowerCase().includes(pesquisaExercicio)).map((exercicio) => (
-            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
-        )));
-    }, [pesquisaExercicio]);
-
-    useEffect(() => {
-        if (!listaAlimentos) return;
-
-        if (!pesquisaAlimentos) return setlistaAlimentos(listaAlimentosBase.map((alimento) => (
-            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
-        )));
-
-        setlistaAlimentos(listaAlimentosBase.filter((alimentoBase) => alimentoBase.descricao.toLowerCase().includes(pesquisaAlimentos)).map((alimento) => (
-            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
-        )));
-    }, [pesquisaAlimentos]);
+    function calcularMetaAlimentosGrafico() {
+        usuario.anamnese.alimento_diarios.forEach(() => {
+            
+        });
+    }
 
     function atualizarCoposAgua() {
         if (!usuario) return;
@@ -216,6 +199,54 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             modalAlimento.current.dismiss();
         });
     }
+
+    useEffect(() => {
+        atualizarCoposAgua();
+
+        setOptions((prevState) => {
+            switch (usuario.anamnese.meta) {
+                case 0:
+                    prevState.yAxis.max = parseFloat(usuario.anamnese.get) - 500;
+                    break;
+                case 2:
+                    prevState.yAxis.max = parseFloat(usuario.anamnese.get) + 500;
+                    break;
+            }
+            
+            calcularMetaAlimentosGrafico();
+
+            return { ...prevState };
+        });
+    }, []);
+
+    useEffect(() => {
+        refTempoPraticado.current = tempoPraticado;
+        refQuantidadeAlimento.current = quantidadeAlimento;
+    });
+
+    useEffect(() => {
+        if (!listaExercicios) return;
+
+        if (!pesquisaExercicio) return setlistaExercicios(listaExerciciosBase.map((exercicio) => (
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+        )));
+
+        setlistaExercicios(listaExerciciosBase.filter((exercicioBase) => exercicioBase.descricao.toLowerCase().includes(pesquisaExercicio)).map((exercicio) => (
+            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+        )));
+    }, [pesquisaExercicio]);
+
+    useEffect(() => {
+        if (!listaAlimentos) return;
+
+        if (!pesquisaAlimentos) return setlistaAlimentos(listaAlimentosBase.map((alimento) => (
+            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
+        )));
+
+        setlistaAlimentos(listaAlimentosBase.filter((alimentoBase) => alimentoBase.descricao.toLowerCase().includes(pesquisaAlimentos)).map((alimento) => (
+            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
+        )));
+    }, [pesquisaAlimentos]);
 
     return (
         <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>

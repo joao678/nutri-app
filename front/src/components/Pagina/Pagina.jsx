@@ -46,7 +46,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
         });
     }
 
-    function alterarUsuario(e) {
+    async function alterarUsuario(e) {
         if (altura === 0) return alerta(aviso('A altura não deve ser igual a 0'));
         if (peso === 0) return alerta(aviso('O peso não deve ser igual a 0'));
         if (!dataNasc) return alerta(aviso('É necessário informar uma data de nascimento'));
@@ -72,9 +72,10 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
             e.preventDefault();
 
             modalAlterarUsuario.current.dismiss();
-            setTimeout(()=>{
-                window.location.reload(false);
-            },250);            
+            alerta('Alterações realizadas com sucesso, é necessário realizar o login novamente após essa mensagem',[{
+                text: 'OK',
+                handler: (e) => doLogout(e, setUserLogged)
+            }]);
         });
     }
 
@@ -85,16 +86,12 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
     function doLogout(e, setUserLogged) {
         usuarioController.logout({}, function (content, message, success) {
             if (!success) alerta(aviso(message));
-            e.preventDefault();
+            if(e) e.preventDefault();
             sessionStorage.clear();
             setUserLogged(false);
             history.push('/login');
         });
     }
-
-    function formatDate(value) {
-        return format(parseISO(value), 'dd/MM/yyyy');
-    };
 
     return (
         <IonPage>
@@ -147,15 +144,15 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                         <IonItem>
                             <IonLabel>Meta:</IonLabel>
                             <IonSelect value={tipoMeta} onIonChange={e => setTipoMeta(e.detail.value)} placeholder="Selecione">
-                                <IonSelectOption value={0}>Ganhar Peso</IonSelectOption>
+                                <IonSelectOption value={0}>Perder Peso</IonSelectOption>
                                 <IonSelectOption value={1}>Manter Peso</IonSelectOption>
-                                <IonSelectOption value={2}>Perder Peso</IonSelectOption>
+                                <IonSelectOption value={2}>Ganhar Peso</IonSelectOption>
                             </IonSelect>
                         </IonItem>
                         <IonItem hidden={tipoMeta === 1}>
                             <IonLabel position="floating">Meta de peso a {tipoMeta === 2 ? 'perder' : 'ganhar'} (Kg)</IonLabel>
-                            <IonInput hidden={tipoMeta === 2} type="number" value={pesoMetaGanhar} onIonChange={e => setPesoMetaGanhar(e.detail.value)}></IonInput>
-                            <IonInput hidden={tipoMeta === 0} type="number" value={pesoMetaPerder} onIonChange={e => setPesoMetaPerder(e.detail.value)}></IonInput>
+                            <IonInput hidden={tipoMeta === 0} type="number" value={pesoMetaGanhar} onIonChange={e => setPesoMetaGanhar(e.detail.value)}></IonInput>
+                            <IonInput hidden={tipoMeta === 2} type="number" value={pesoMetaPerder} onIonChange={e => setPesoMetaPerder(e.detail.value)}></IonInput>
                         </IonItem>
                         <IonItem>
                             <IonLabel>Nivel de Atividade Fisica:</IonLabel>

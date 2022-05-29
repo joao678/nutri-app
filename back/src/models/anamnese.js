@@ -10,7 +10,7 @@ export default function (sequelize, Sequelize) {
         peso_ganhar: { type: Sequelize.DECIMAL },
         nivel_atividade: { type: Sequelize.INTEGER },
         geb: { type: Sequelize.DECIMAL },
-        get: { type: Sequelize.STRING },
+        get: { type: Sequelize.DECIMAL },
         cal_total: { type: Sequelize.DECIMAL }
     });
 

@@ -4,7 +4,6 @@ import usuario from './usuario.js';
 import anamnese from './anamnese.js';
 import exercicioDiario from './exercicioDiario.js';
 import aguaDiario from './aguaDiario.js';
-import alimento from './alimento.js';
 import alimentoDiario from './alimentoDiario.js';
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -20,16 +19,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     }
 });
 
-/* const sequelize = new Sequelize({
-    storage: dbConfig.storage,
-    dialect: dbConfig.dialect,
-}); */
-
 const modelIndex = {
     Sequelize: Sequelize,
     sequelize: sequelize,
     
-    alimento: alimento(sequelize, Sequelize),
     exercicioDiario: exercicioDiario(sequelize, Sequelize),
     aguaDiario: aguaDiario(sequelize, Sequelize),
     alimentoDiario: alimentoDiario(sequelize, Sequelize),
@@ -39,9 +32,6 @@ const modelIndex = {
 
 modelIndex.usuarios.hasOne(modelIndex.anamnese);
 modelIndex.anamnese.belongsTo(modelIndex.usuarios);
-
-/* modelIndex.alimentoDiario.hasOne(modelIndex.alimento);
-modelIndex.alimento.belongsTo(modelIndex.alimentoDiario); */
 
 modelIndex.anamnese.hasMany(modelIndex.alimentoDiario, { as: 'alimento_diarios'});
 modelIndex.alimentoDiario.belongsTo(modelIndex.anamnese);
