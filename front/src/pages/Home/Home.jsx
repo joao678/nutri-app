@@ -61,17 +61,14 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         refQuantidadeAlimento = useRef(quantidadeAlimento),
         [mostrarActionSheetAdicionarOpcoes] = useIonActionSheet();
 
-    //temp
-    /* window.alterarGrafico = function (num) {
-        setOptions((prevState) => {
-            prevState.series.data = [num];
-            return {...prevState};
-        });
-    }*/
-
     function calcularMetaAlimentosGrafico() {
-        usuario.anamnese.alimento_diarios.forEach(() => {
-            
+        const quantKcal = usuario.anamnese.alimento_diarios.reduce((acumuladorCaloria, alimento) => {
+            return acumuladorCaloria + ((parseFloat(alimento.calorias) * parseFloat(alimento.quantidade)) / 100);
+        }, 0);
+
+        setOptions((prevState) => {
+            prevState.series.data = [quantKcal];
+            return {...prevState};
         });
     }
 
@@ -116,11 +113,20 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         alimentoController.getAllAlimentos(function (content, message, success) {
             if (!success) return alerta(aviso(message));
 
-            const alimentos = content.map((alimento) => ({ id: alimento.id, descricao: alimento.description }));
+            const alimentos = content.map((alimento) => {
+                return ({
+                    id: alimento.id,
+                    descricao: alimento.description,
+                    carboidratos: alimento.attributes?.carbohydrate?.qty,
+                    proteinas: alimento.attributes?.protein?.qty,
+                    gorduras: alimento.attributes?.fatty_acids?.saturated?.qty,
+                    calorias: alimento.attributes?.energy?.kcal,
+                });
+            });
 
             setListaAlimentosBase(alimentos);
-            setlistaAlimentos(alimentos.map((exercicio) => (
-                <ListaAlimentoItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+            setlistaAlimentos(alimentos.map((alimento) => (
+                <ListaAlimentoItem key={alimento.id} carboidratos={alimento.carboidratos} proteinas={alimento.proteinas} gorduras={alimento.gorduras} calorias={alimento.calorias} descricao={alimento.descricao} id={alimento.id} />
             )));
         });
     }
@@ -159,9 +165,9 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         );
     }
 
-    function ListaAlimentoItem({ id, descricao }) {
+    function ListaAlimentoItem({ id, descricao, carboidratos, proteinas, gorduras, calorias }) {
         return (
-            <IonItem button onClick={function () { adicionarAlimento(id); }}>
+            <IonItem button onClick={function () { adicionarAlimento(id, carboidratos, proteinas, gorduras, calorias); }}>
                 <IonLabel>{descricao}</IonLabel>
             </IonItem>
         );
@@ -183,10 +189,14 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         });
     }
 
-    function adicionarAlimento(alimentoId) {
+    function adicionarAlimento(alimentoId, carboidratos, proteinas, gorduras, calorias) {
         const dto = {
             quantidade: refQuantidadeAlimento.current,
-            codigo_alimento: alimentoId
+            codigo_alimento: alimentoId,
+            carboidratos: carboidratos,
+            proteinas: proteinas,
+            gorduras: gorduras,
+            calorias: calorias
         };
 
         setShowLoading(true);
@@ -197,6 +207,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
 
             usuario.anamnese.alimento_diarios.push(content);
             modalAlimento.current.dismiss();
+            calcularMetaAlimentosGrafico();
         });
     }
 
@@ -212,7 +223,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
                     prevState.yAxis.max = parseFloat(usuario.anamnese.get) + 500;
                     break;
             }
-            
+
             calcularMetaAlimentosGrafico();
 
             return { ...prevState };
@@ -240,11 +251,11 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         if (!listaAlimentos) return;
 
         if (!pesquisaAlimentos) return setlistaAlimentos(listaAlimentosBase.map((alimento) => (
-            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
+            <ListaAlimentoItem key={alimento.id} carboidratos={alimento.carboidratos} proteinas={alimento.proteinas} gorduras={alimento.gorduras} calorias={alimento.calorias} descricao={alimento.descricao} id={alimento.id} />
         )));
 
         setlistaAlimentos(listaAlimentosBase.filter((alimentoBase) => alimentoBase.descricao.toLowerCase().includes(pesquisaAlimentos)).map((alimento) => (
-            <ListaAlimentoItem key={alimento.id} descricao={alimento.descricao} id={alimento.id} />
+            <ListaAlimentoItem key={alimento.id} carboidratos={alimento.carboidratos} proteinas={alimento.proteinas} gorduras={alimento.gorduras} calorias={alimento.calorias} descricao={alimento.descricao} id={alimento.id} />
         )));
     }, [pesquisaAlimentos]);
 

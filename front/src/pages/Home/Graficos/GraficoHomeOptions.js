@@ -31,24 +31,28 @@ export default {
         tickAmount: 0,
         min: 0,
         max: 1000,
-        title: {
-            y: -70
-        },
+        title: { y: -70 },
         labels: {
-            y: 16
+            y: 16,
+            style: {
+                color: 'white',
+                fontWeight: 'bold'
+            },
         }
     },
     plotOptions: {
         solidgauge: {
             dataLabels: {
                 borderWidth: 0,
-                borderRadius: 0
+                borderRadius: 0,
+                style: { textOutline: false },
+                color: 'white',
+                format: '{y:.2f}/kcal'
             }
         }
     },
     series: {
         type: 'solidgauge',
-        name: 'Calorias',
-        data: [100],
+        data: [0],
     }
 }
