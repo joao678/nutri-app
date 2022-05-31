@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import enviarEmail from '../../email.js';
 import defaultResponse from '../core/base.response.js';
 import db from '../models/index.js';
+import Compendium from '../dados/Compendium.js';
 
 const Usuario = db.usuarios;
 const Anamnese = db.anamnese;
@@ -104,6 +105,10 @@ const usuarioController = {
                 req.session.username = req.body.email;
                 req.session.save();
 
+                usuario.anamnese.exercicio_diarios.forEach((exercicio) => {    
+                    exercicio.dataValues.met = Compendium[exercicio.codigo_exercicio].met;
+                });
+
                 return res.send(defaultResponse(true, "Logado com sucesso!!!", usuario));
             }
 
@@ -156,19 +161,7 @@ const usuarioController = {
                     }]
                 }]
             });
-
-            /* if (!usuario) throw "Usuário inexistente.";
-
-            if (await bcrypt.compare(req.body.senha, usuario.senha)) {
-                req.session.loggedin = true;
-                req.session.usuarioId = usuario.id;
-                req.session.username = req.body.email;
-                req.session.save();
-
-                return res.send(defaultResponse(true, "Logado com sucesso!!!", usuario));
-            }
-
-            res.send(defaultResponse(false, "Senha incorreta", {})); */
+            
             if (!usuario) throw "Usuário inexistente.";
 
             return res.send(defaultResponse(true, "", usuario));

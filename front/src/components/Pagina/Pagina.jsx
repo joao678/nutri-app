@@ -99,7 +99,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                 <IonToolbar>
                     <IonTitle>{title}</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton hidden={!isUserLogged} onClick={(e) => setIsModalAlterarUsuarioOpen(true)}>
+                        <IonButton hidden={!isUserLogged} onClick={(e) => { setUsuarioActiveTabIndex(0); setIsModalAlterarUsuarioOpen(true)}}>
                             <IonIcon slot="icon-only" icon={settingsOutline} />
                         </IonButton>
                         <IonButton hidden={!isUserLogged} onClick={(e) => doLogout(e, setUserLogged)}>

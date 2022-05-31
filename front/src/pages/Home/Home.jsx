@@ -51,6 +51,9 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         [listaAlimentosBase, setListaAlimentosBase] = useState([]),
         [listaExercicios, setlistaExercicios] = useState([]),
         [listaAlimentos, setlistaAlimentos] = useState([]),
+        [metaCarb, setMetaCarb] = useState(0),
+        [metaProt, setMetaProt] = useState(0),
+        [metaGord, setMetaGord] = useState(0),
         [alerta] = useIonAlert(),
         modalAgua = useRef(),
         modalExercicio = useRef(),
@@ -62,14 +65,28 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         [mostrarActionSheetAdicionarOpcoes] = useIonActionSheet();
 
     function calcularMetaAlimentosGrafico() {
-        const quantKcal = usuario.anamnese.alimento_diarios.reduce((acumuladorCaloria, alimento) => {
+        let quantKcal = usuario.anamnese.alimento_diarios.reduce((acumuladorCaloria, alimento) => {
             return acumuladorCaloria + ((parseFloat(alimento.calorias) * parseFloat(alimento.quantidade)) / 100);
         }, 0);
+
+        const quantKcalExercicios = usuario.anamnese.exercicio_diarios.reduce((acumuladorExercicio, exercicio) => {
+            const horas = parseInt(exercicio.tempo.split(':')[0]);
+            const minutos = parseInt(exercicio.tempo.split(':')[1]) / 60;
+            return acumuladorExercicio + parseFloat(exercicio.met) * parseFloat(usuario.peso) * (horas + minutos);
+        }, 0);
+
+        quantKcal = quantKcal - quantKcalExercicios;
 
         setOptions((prevState) => {
             prevState.series.data = [quantKcal];
             return {...prevState};
         });
+    }
+
+    function calcularMetaCarbProtGord() {
+        setMetaCarb(usuario.anamnese.alimento_diarios.reduce((prev, atual) => prev + parseFloat(atual.carboidratos), 0).toFixed(2));
+        setMetaProt(usuario.anamnese.alimento_diarios.reduce((prev, atual) => prev + parseFloat(atual.proteinas), 0).toFixed(2));
+        setMetaGord(usuario.anamnese.alimento_diarios.reduce((prev, atual) => prev + parseFloat(atual.gorduras), 0).toFixed(2));
     }
 
     function atualizarCoposAgua() {
@@ -185,6 +202,8 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             setShowLoading(false);
 
             usuario.anamnese.exercicio_diarios.push(content);
+            calcularMetaAlimentosGrafico();
+            calcularMetaCarbProtGord();
             modalExercicio.current.dismiss();
         });
     }
@@ -208,12 +227,14 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             usuario.anamnese.alimento_diarios.push(content);
             modalAlimento.current.dismiss();
             calcularMetaAlimentosGrafico();
+            calcularMetaCarbProtGord();
         });
     }
 
     useEffect(() => {
+        if(!usuario) return;
         atualizarCoposAgua();
-
+        calcularMetaCarbProtGord();
         setOptions((prevState) => {
             switch (usuario.anamnese.meta) {
                 case 0:
@@ -329,15 +350,15 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
                     <div className='hbox panel-generico-home panel-nutrientes' style={{ placeItems: 'center' }}>
                         <div className='panel-nutrientes-item botoes-centrais-grid-num-3'>
                             <h3>Carb.</h3>
-                            <h5>0/27g</h5>
+                            <h5>{`${metaCarb}/g`}</h5>
                         </div>
                         <div className='panel-nutrientes-item botoes-centrais-grid-num-3'>
                             <h3>Prot.</h3>
-                            <h5>0/100g</h5>
+                            <h5>{`${metaProt}/g`}</h5>
                         </div>
                         <div className='panel-nutrientes-item botoes-centrais-grid-num-3'>
                             <h3>Gord.</h3>
-                            <h5>0/10g</h5>
+                            <h5>{`${metaGord}/g`}</h5>
                         </div>
                     </div>
                 </div>
