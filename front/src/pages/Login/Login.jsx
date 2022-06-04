@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Login.css';
+import logo from '../../img/logo.png';
 
 const debug = true;
 
@@ -40,6 +41,7 @@ const Login = function ({ isUserLogged, setUserLogged }) {
         <Pagina title="Login" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
             <div style={{ display: 'grid', height: '100%' }} className="ion-justify-content-center ion-align-items-center">
                 <div className="vbox" style={{ gap: '5px' }}>
+                    <img src={logo} />
                     <IonText hidden={!loginErro.temErro} color="danger">{loginErro.mensagem}</IonText>
                     <IonItem>
                         <IonLabel position="floating">Email</IonLabel>
