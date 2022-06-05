@@ -7,6 +7,7 @@ import './Login.css';
 import logo from '../../img/logo.png';
 
 const debug = true;
+const isDarkTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
 const Login = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),
@@ -41,7 +42,7 @@ const Login = function ({ isUserLogged, setUserLogged }) {
         <Pagina title="Login" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
             <div style={{ display: 'grid', height: '100%' }} className="ion-justify-content-center ion-align-items-center">
                 <div className="vbox" style={{ gap: '5px' }}>
-                    <img src={logo} />
+                    <img src={logo} style={{ aspectRatio: '1', maxWidth: '36ch', filter: isDarkTheme ? 'invert(100%)': '' }}/>
                     <IonText hidden={!loginErro.temErro} color="danger">{loginErro.mensagem}</IonText>
                     <IonItem>
                         <IonLabel position="floating">Email</IonLabel>

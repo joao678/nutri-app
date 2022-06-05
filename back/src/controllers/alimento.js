@@ -20,6 +20,7 @@ const alimentoController = {
             const alimentoDiario = await AlimentoDiario.create({
                 anamneseId: anamnese.id,
                 codigo_alimento: req.body.codigo_alimento,
+                descricao: req.body.descricao,
                 data_consumo: new Date(),
                 quantidade: req.body.quantidade,
                 carboidratos: req.body.carboidratos,

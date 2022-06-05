@@ -8,6 +8,7 @@ export default function (sequelize, Sequelize) {
         gorduras: { type: Sequelize.DECIMAL },
         calorias: { type: Sequelize.DECIMAL },
         data_consumo: { type: Sequelize.DATE },
+        descricao: { type: Sequelize.STRING }
     });
 
     return AlimentoDiario;

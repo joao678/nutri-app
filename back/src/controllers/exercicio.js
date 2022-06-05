@@ -38,6 +38,7 @@ const exercicioController = {
             const exercicioDiario = await ExercicioDiario.create({
                 anamneseId: anamnese.id,
                 codigo_exercicio: req.body.codigo_exercicio,
+                descricao: req.body.descricao,
                 data_praticada: new Date(),
                 tempo: req.body.tempo,
             });

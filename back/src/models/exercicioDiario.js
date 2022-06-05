@@ -3,7 +3,8 @@ export default function (sequelize, Sequelize) {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
         codigo_exercicio: { type: Sequelize.INTEGER },
         tempo: { type: Sequelize.TIME },
-        data_praticada: { type: Sequelize.DATE }
+        data_praticada: { type: Sequelize.DATE },
+        descricao: { type: Sequelize.STRING }
     });
 
     return ExercicioDiario;

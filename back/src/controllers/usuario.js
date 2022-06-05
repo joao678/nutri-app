@@ -105,7 +105,7 @@ const usuarioController = {
                 req.session.username = req.body.email;
                 req.session.save();
 
-                usuario.anamnese.exercicio_diarios.forEach((exercicio) => {    
+                usuario.anamnese.exercicio_diarios.forEach((exercicio) => {
                     exercicio.dataValues.met = Compendium[exercicio.codigo_exercicio].met;
                 });
 
@@ -126,42 +126,30 @@ const usuarioController = {
 
             const usuario = await Usuario.findOne({
                 where: { id: req.session.usuarioId },
+                order: [
+                    [{model: Anamnese, as: 'anamnese'}, {model: AguaDiario, as: 'agua_diarios'}, 'createdAt', 'DESC'],
+                    [{model: Anamnese, as: 'anamnese'}, {model: ExercicioDiario, as: 'exercicio_diarios'}, 'createdAt', 'DESC'],
+                    [{model: Anamnese, as: 'anamnese'}, {model: AlimentoDiario, as: 'alimento_diarios'}, 'createdAt', 'DESC']
+                ],
                 include: [{
                     model: Anamnese,
+                    as: 'anamnese',
                     include: [{
                         model: AguaDiario,
                         as: 'agua_diarios',
-                        required: false,
-                        where: {
-                            data_consumo: {
-                                [Op.gt]: TODAY_START,
-                                [Op.lt]: NOW
-                            }
-                        }
+                        required: false
                     }, {
                         model: ExercicioDiario,
                         required: false,
-                        as: 'exercicio_diarios',
-                        where: {
-                            data_praticada: {
-                                [Op.gt]: TODAY_START,
-                                [Op.lt]: NOW
-                            }
-                        }
+                        as: 'exercicio_diarios'
                     }, {
                         model: AlimentoDiario,
                         required: false,
-                        as: 'alimento_diarios',
-                        where: {
-                            data_consumo: {
-                                [Op.gt]: TODAY_START,
-                                [Op.lt]: NOW
-                            }
-                        }
+                        as: 'alimento_diarios'
                     }]
                 }]
             });
-            
+
             if (!usuario) throw "Usuário inexistente.";
 
             return res.send(defaultResponse(true, "", usuario));

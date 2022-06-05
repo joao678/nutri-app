@@ -2,6 +2,7 @@
     display: grid;
     grid-auto-flow: column;
     justify-items: center;
+    grid-auto-columns: 1fr;
 }
 
 .tabpanel-buttons-container input[type="radio"] {
@@ -16,4 +17,14 @@
 
 .tabpanel-buttons-container input[type="radio"]:checked ~ label {
     border-bottom: 1px solid var(--ion-color-primary, #3880ff);
+}
+
+.tabpanel-buttons-container > * {
+    width: 100%;
+    display: grid;
+    text-align: center;
+}
+
+.tabpanel-historico {
+    background-color: var(--ion-item-background);
 }

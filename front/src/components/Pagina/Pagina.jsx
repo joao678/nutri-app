@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonModal, IonPage, IonRouterOutlet, IonSelect, IonSelectOption, IonSplitPane, IonTab, IonTabBar, IonTabButton, IonTabs, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonModal, IonPage, IonRouterOutlet, IonSelect, IonSelectOption, IonSplitPane, IonTab, IonTabBar, IonTabButton, IonTabs, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
 import { format, isAfter, isDate, parseISO } from 'date-fns';
 import { exitOutline, settingsOutline } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
@@ -21,9 +21,13 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
         [dataNasc, setDataNasc] = useState(),
         [usuarioId, setUsuarioId] = useState(),
         [usuarioActiveTabIndex, setUsuarioActiveTabIndex] = useState(0),
+        [historicoActiveTab, setHistoricoActiveTab] = useState(0),
         [showLoading, setShowLoading] = useState(false),
         [sexo, setSexo] = useState(),
         dateTimeDataNasc = useRef(),
+        [listaAlimentoDiarios, setListaAlimentoDiarios] = useState([]),
+        [listaExercicioDiarios, setListaExercicioDiarios] = useState([]),
+        [listaAguaDiarios, setListaAguaDiarios] = useState([]),
         [alerta] = useIonAlert();
 
     function recuperarInfoUsuarioLogado(e) {
@@ -43,6 +47,10 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
             setNivelAtividade(content.anamnese.nivel_atividade);
             setPesoMetaGanhar(content.anamnese.peso_ganhar);
             setPesoMetaPerder(content.anamnese.peso_perder);
+
+            setListaAlimentoDiarios(content.anamnese.alimento_diarios);
+            setListaExercicioDiarios(content.anamnese.exercicio_diarios);
+            setListaAguaDiarios(content.anamnese.agua_diarios);
         });
     }
 
@@ -72,7 +80,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
             e.preventDefault();
 
             modalAlterarUsuario.current.dismiss();
-            alerta('Alterações realizadas com sucesso, é necessário realizar o login novamente após essa mensagem',[{
+            alerta('Alterações realizadas com sucesso, é necessário realizar o login novamente após essa mensagem', [{
                 text: 'OK',
                 handler: (e) => doLogout(e, setUserLogged)
             }]);
@@ -86,7 +94,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
     function doLogout(e, setUserLogged) {
         usuarioController.logout({}, function (content, message, success) {
             if (!success) alerta(aviso(message));
-            if(e) e.preventDefault();
+            if (e) e.preventDefault();
             sessionStorage.clear();
             setUserLogged(false);
             history.push('/login');
@@ -99,7 +107,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                 <IonToolbar>
                     <IonTitle>{title}</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton hidden={!isUserLogged} onClick={(e) => { setUsuarioActiveTabIndex(0); setIsModalAlterarUsuarioOpen(true)}}>
+                        <IonButton hidden={!isUserLogged} onClick={(e) => { setUsuarioActiveTabIndex(0); setIsModalAlterarUsuarioOpen(true) }}>
                             <IonIcon slot="icon-only" icon={settingsOutline} />
                         </IonButton>
                         <IonButton hidden={!isUserLogged} onClick={(e) => doLogout(e, setUserLogged)}>
@@ -114,6 +122,12 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                     <TabPanel slot='fixed' setActiveTab={setUsuarioActiveTabIndex} name='tabPanelAlterarUsuario'>
                         <TabPanelButton active={true}>Usuário</TabPanelButton>
                         <TabPanelButton>Anamnese</TabPanelButton>
+                        <TabPanelButton>Histórico</TabPanelButton>
+                    </TabPanel>
+                    <TabPanel hidden={usuarioActiveTabIndex !== 2} className='tabpanel-historico' slot='fixed' setActiveTab={setHistoricoActiveTab} name='tabPanelHistorico'>
+                        <TabPanelButton active={true}>Água</TabPanelButton>
+                        <TabPanelButton>Alimento</TabPanelButton>
+                        <TabPanelButton>Exercício</TabPanelButton>
                     </TabPanel>
                     <IonContent hidden={usuarioActiveTabIndex !== 0}>
                         <IonItem>
@@ -163,6 +177,45 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                                 <IonSelectOption value={3}>Muito ativo</IonSelectOption>
                             </IonSelect>
                         </IonItem>
+                    </IonContent>
+                    <IonContent force-overscroll="false" hidden={usuarioActiveTabIndex !== 2}>
+                        <IonList hidden={historicoActiveTab !== 0}>
+                            {[...listaAguaDiarios].map((agua, i) => {
+                                return <IonItem key={i}>
+                                    <IonLabel>
+                                        <h2>Quantidade: {agua.quantidade}ml</h2>
+                                        <p>Data consumida: {format(new Date(agua.data_consumo), 'dd/MM/yyyy HH:mm:ss')}</p>
+                                    </IonLabel>
+                                </IonItem>;
+                            }
+                            )}
+                        </IonList>
+                        <IonList hidden={historicoActiveTab !== 1}>
+                            {[...listaAlimentoDiarios].map((alimento, i) => {
+                                return <IonItem key={i}>
+                                    <IonLabel>
+                                        <h2>{alimento.descricao}</h2>
+                                        <p>Quantidade: {alimento.quantidade}g</p>
+                                        <p>Data consumida: {format(new Date(alimento.data_consumo), 'dd/MM/yyyy HH:mm:ss')}</p>
+                                    </IonLabel>
+                                </IonItem>;
+                            }
+                            )}
+                        </IonList>
+                        <IonList hidden={historicoActiveTab !== 2}>
+                            {[...listaExercicioDiarios].map((exercicio, i) => {
+                                const tempoSplit = exercicio.tempo.split(':');
+                                const horas = parseInt(tempoSplit[0]);
+                                const minutos = parseInt(tempoSplit[1]);
+                                return <IonItem key={i}>
+                                    <IonLabel>
+                                        <h2>{exercicio.descricao}</h2>
+                                        <p>Tempo: {horas ? `${horas} horas` : ''}{horas && minutos ? ' e ': ''}{minutos ? `${minutos} minutos` : ''}</p>
+                                    </IonLabel>
+                                </IonItem>;
+                            }
+                            )}
+                        </IonList>
                     </IonContent>
                     <IonButton slot='fixed' fill='clear' onClick={(e) => alterarUsuario(e)}>OK</IonButton>
                 </IonModal>

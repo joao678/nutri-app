@@ -176,7 +176,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
 
     function ListaExercicioItem({ id, descricao }) {
         return (
-            <IonItem button onClick={function () { adicionarExercicio(id); }}>
+            <IonItem button onClick={function () { adicionarExercicio(id, descricao); }}>
                 <IonLabel>{descricao}</IonLabel>
             </IonItem>
         );
@@ -184,15 +184,16 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
 
     function ListaAlimentoItem({ id, descricao, carboidratos, proteinas, gorduras, calorias }) {
         return (
-            <IonItem button onClick={function () { adicionarAlimento(id, carboidratos, proteinas, gorduras, calorias); }}>
+            <IonItem button onClick={function () { adicionarAlimento(id, descricao, carboidratos, proteinas, gorduras, calorias); }}>
                 <IonLabel>{descricao}</IonLabel>
             </IonItem>
         );
     }
 
-    function adicionarExercicio(exercicioId) {
+    function adicionarExercicio(exercicioId, descricao) {
         const dto = {
             tempo: format(new Date(refTempoPraticado.current), 'HH:mm:ss'),
+            descricao: descricao,
             codigo_exercicio: exercicioId
         };
 
@@ -208,9 +209,10 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         });
     }
 
-    function adicionarAlimento(alimentoId, carboidratos, proteinas, gorduras, calorias) {
+    function adicionarAlimento(alimentoId, descricao, carboidratos, proteinas, gorduras, calorias) {
         const dto = {
             quantidade: refQuantidadeAlimento.current,
+            descricao: descricao,
             codigo_alimento: alimentoId,
             carboidratos: carboidratos,
             proteinas: proteinas,
