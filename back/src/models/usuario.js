@@ -3,7 +3,6 @@ export default function (sequelize, Sequelize) {
         id: { type: Sequelize.UUID, defaultValue: Sequelize.UUIDV4, primaryKey: true, },
         email: { type: Sequelize.STRING, unique: true },
         senha: { type: Sequelize.STRING },
-        nome: { type: Sequelize.STRING },
         data_nasc: { type: Sequelize.DATE },
         peso: { type: Sequelize.DECIMAL },
         altura: { type: Sequelize.DECIMAL },

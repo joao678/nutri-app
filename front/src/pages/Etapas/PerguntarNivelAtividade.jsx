@@ -7,7 +7,7 @@ import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
 
-const PerguntarNivelAtividade = function ({ usuario, isUserLogged, setUserLogged }) {
+const PerguntarNivelAtividade = function ({ usuario, isUserLogged, setUserLogged, etapa }) {
     const history = useHistory(),
         [nivelAtividade, setNivelAtividade] = useState(null),
         [textoNivelAtividade, setTextoNivelAtividade] = useState(null),
@@ -22,12 +22,14 @@ const PerguntarNivelAtividade = function ({ usuario, isUserLogged, setUserLogged
             if (!success) return;
             e.preventDefault();
 
-            history.push(`/home`, { usuario: usuario });
+            usuarioController.recuperarInfoUsuarioLogado(function (content, message, success) {
+                history.push(`/home`, { usuario: content, etapa: content.etapa });
+            });
         });
     }
 
     return (
-        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa}>
             <div style={{ display: 'grid', height: '100%' }} className="ion-align-items-center">
                 <div className='vbox vbox-informativo' style={{ width: '100%', gridTemplateRows: 'unset' }}>
                     <h1 className='ion-text-center'>Infome seu nível de atividade física</h1>

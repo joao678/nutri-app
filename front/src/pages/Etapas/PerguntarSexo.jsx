@@ -7,7 +7,7 @@ import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
 
-const PerguntarSexo = function ({ usuario, isUserLogged, setUserLogged }) {
+const PerguntarSexo = function ({ usuario, isUserLogged, setUserLogged, etapa }) {
     const history = useHistory(),
         [sexo, setSexo] = useState(null),
         [alerta] = useIonAlert();
@@ -26,7 +26,7 @@ const PerguntarSexo = function ({ usuario, isUserLogged, setUserLogged }) {
     }
 
     return (
-        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa}>
             <div style={{ display: 'grid', height: '100%' }} className="ion-align-items-center">
                 <div className='vbox vbox-informativo' style={{ width: '100%', gridTemplateRows: 'unset' }}>
                     <h1 className='ion-text-center'>Informe seu sexo</h1>

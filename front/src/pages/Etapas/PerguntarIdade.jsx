@@ -8,7 +8,7 @@ import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
 
-const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
+const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged, etapa }) {
     const history = useHistory(),
         [informarIdadeTexto, setInformarIdadeTexto] = useState(),
         [dataNasc, setDataNasc] = useState(),
@@ -35,7 +35,7 @@ const PerguntarIdade = function ({ usuario, isUserLogged, setUserLogged }) {
     };
 
     return (
-        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa}>
             <IonModal trigger="open-modal">
                 <IonContent force-overscroll="false">
                     <IonDatetime className='perguntar-idade-iondatetime' presentation='date' ref={dateTimeDataNasc} onIonChange={e => {

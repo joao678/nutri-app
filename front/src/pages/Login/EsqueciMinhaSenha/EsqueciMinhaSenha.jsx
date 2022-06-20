@@ -4,11 +4,12 @@ import { useHistory } from 'react-router';
 import Pagina from '../../../components/Pagina/Pagina';
 import usuarioController from '../../../services/Usuario';
 
+const debug = false;
 
 const EsqueciMinhaSenha = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),
-        [email, setEmail] = useState('joao678@gmail.com'),
-        [password, setPassword] = useState('v12fv452'),
+        [email, setEmail] = useState(debug === true ? 'joao678@gmail.com': ''),
+        [password, setPassword] = useState(debug === true ? 'v12fv452': ''),
         [loginErro, setLoginErro] = useState({ temErro: false, mensagem: '' }),
         [showLoading, setShowLoading] = useState(false);
 

@@ -62,25 +62,25 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
             
             { /* Etapas */}
             <Route exact path="/etapas/1" render={({ match, location }) => {
-                return <Informativo usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <Informativo etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             <Route exact path="/etapas/2" render={({ match, location }) => {
-                return <PerguntarIdade usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <PerguntarIdade etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             <Route exact path="/etapas/3" render={({ match, location }) => {
-                return <PerguntarPeso usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <PerguntarPeso etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             <Route exact path="/etapas/4" render={({ match, location }) => {
-                return <PerguntarAltura usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <PerguntarAltura etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             <Route exact path="/etapas/5" render={({ match, location }) => {
-                return <PerguntarMeta usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <PerguntarMeta etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             <Route exact path="/etapas/6" render={({ match, location }) => {
-                return <PerguntarSexo usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <PerguntarSexo etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             <Route exact path="/etapas/7" render={({ match, location }) => {
-                return <PerguntarNivelAtividade usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <PerguntarNivelAtividade etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
             { /* Etapas */}
 

@@ -4,7 +4,8 @@ export default function (sequelize, Sequelize) {
         codigo_exercicio: { type: Sequelize.INTEGER },
         tempo: { type: Sequelize.TIME },
         data_praticada: { type: Sequelize.DATE },
-        descricao: { type: Sequelize.STRING }
+        descricao: { type: Sequelize.STRING },
+        met: { type: Sequelize.DECIMAL },
     });
 
     return ExercicioDiario;

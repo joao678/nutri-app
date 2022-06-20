@@ -7,7 +7,7 @@ import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
 
-const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
+const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged, etapa }) {
     const history = useHistory(),
         [modalAberto, setModalAberto] = useState(false),
         [tipoMeta, setTipoMeta] = useState('perder'),
@@ -50,7 +50,7 @@ const PerguntarMeta = function ({ usuario, isUserLogged, setUserLogged }) {
     }
 
     return (
-        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa}>
             <IonModal ref={modalMeta} className='modal-meta' isOpen={modalAberto} onDidDismiss={() => { setModalAberto(false) }}>
                 <IonContent>
                     <div className='vbox' style={{ height: '100%', alignContent: 'space-between' }}>

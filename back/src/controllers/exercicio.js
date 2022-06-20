@@ -41,6 +41,7 @@ const exercicioController = {
                 descricao: req.body.descricao,
                 data_praticada: new Date(),
                 tempo: req.body.tempo,
+                met: req.body.met
             });
             
             return res.send(defaultResponse(true, `Exercício adicionado com sucesso`, exercicioDiario));

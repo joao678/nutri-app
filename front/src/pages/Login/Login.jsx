@@ -6,7 +6,7 @@ import usuarioController from '../../services/Usuario';
 import './Login.css';
 import logo from '../../img/logo.png';
 
-const debug = true;
+const debug = false;
 const isDarkTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
 const Login = function ({ isUserLogged, setUserLogged }) {
@@ -28,8 +28,8 @@ const Login = function ({ isUserLogged, setUserLogged }) {
             sessionStorage.setItem('etapa', usuario.etapa);
             setUserLogged(true);
 
-            if(usuario.etapa === 8) return history.push('/home', { usuario: usuario });
-            history.push(`/etapas/${usuario.etapa}`, { usuario: usuario });
+            if(usuario.etapa === 8) return history.push('/home', { usuario: usuario, etapa: usuario.etapa });
+            history.push(`/etapas/${usuario.etapa}`, { usuario: usuario, etapa: usuario.etapa });
         });
     }
 

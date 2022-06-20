@@ -31,6 +31,12 @@ import './ModalHome.css';
 HighchartsMore(Highcharts);
 SolidGauge(Highcharts);
 
+Highcharts.setOptions({
+    lang: {
+        numericSymbols: null,
+    }
+});
+
 const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     const [options, setOptions] = useState(GraficoHomeOptions),
         [isAguaModalOpen, setIsAguaModalOpen] = useState(false),
@@ -121,7 +127,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             if (!success) return alerta(aviso(message));
             setListaExerciciosBase(content);
             setlistaExercicios(content.map((exercicio) => (
-                <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+                <ListaExercicioItem key={exercicio.id} met={exercicio.met} descricao={exercicio.descricao} id={exercicio.id} />
             )));
         });
     }
@@ -174,9 +180,9 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         });
     }
 
-    function ListaExercicioItem({ id, descricao }) {
+    function ListaExercicioItem({ id, descricao, met }) {
         return (
-            <IonItem button onClick={function () { adicionarExercicio(id, descricao); }}>
+            <IonItem button onClick={function () { adicionarExercicio(id, descricao, met); }}>
                 <IonLabel>{descricao}</IonLabel>
             </IonItem>
         );
@@ -190,11 +196,12 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         );
     }
 
-    function adicionarExercicio(exercicioId, descricao) {
+    function adicionarExercicio(exercicioId, descricao, met) {
         const dto = {
             tempo: format(new Date(refTempoPraticado.current), 'HH:mm:ss'),
             descricao: descricao,
-            codigo_exercicio: exercicioId
+            codigo_exercicio: exercicioId,
+            met: met
         };
 
         setShowLoading(true);
@@ -202,10 +209,10 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             if (!success) alerta(aviso(message));
             setShowLoading(false);
 
+            modalExercicio.current.dismiss();
             usuario.anamnese.exercicio_diarios.push(content);
             calcularMetaAlimentosGrafico();
             calcularMetaCarbProtGord();
-            modalExercicio.current.dismiss();
         });
     }
 
@@ -226,8 +233,8 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
             setShowLoading(false);
             setQuantidadeAlimento(0);
 
-            usuario.anamnese.alimento_diarios.push(content);
             modalAlimento.current.dismiss();
+            usuario.anamnese.alimento_diarios.push(content);
             calcularMetaAlimentosGrafico();
             calcularMetaCarbProtGord();
         });
@@ -262,11 +269,11 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
         if (!listaExercicios) return;
 
         if (!pesquisaExercicio) return setlistaExercicios(listaExerciciosBase.map((exercicio) => (
-            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+            <ListaExercicioItem key={exercicio.id} met={exercicio.met} descricao={exercicio.descricao} id={exercicio.id} />
         )));
 
         setlistaExercicios(listaExerciciosBase.filter((exercicioBase) => exercicioBase.descricao.toLowerCase().includes(pesquisaExercicio)).map((exercicio) => (
-            <ListaExercicioItem key={exercicio.id} descricao={exercicio.descricao} id={exercicio.id} />
+            <ListaExercicioItem key={exercicio.id} met={exercicio.met} descricao={exercicio.descricao} id={exercicio.id} />
         )));
     }, [pesquisaExercicio]);
 
@@ -283,7 +290,7 @@ const Home = function ({ isUserLogged, setUserLogged, usuario }) {
     }, [pesquisaAlimentos]);
 
     return (
-        <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+        <Pagina title="Home" isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={usuario.etapa}>
 
             <IonLoading isOpen={showLoading} message={'Aguarde...'} />
 

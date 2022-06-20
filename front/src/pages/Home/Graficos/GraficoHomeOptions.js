@@ -34,6 +34,7 @@ export default {
         title: { y: -70 },
         labels: {
             y: 16,
+            format: '{value}/kcal',
             style: {
                 color: 'white',
                 fontWeight: 'bold'

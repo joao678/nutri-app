@@ -4,7 +4,7 @@ import Pagina from '../../components/Pagina/Pagina';
 import usuarioController from '../../services/Usuario';
 import './Etapas.css';
 
-const Informativo = function ({ usuario, isUserLogged, setUserLogged }) {
+const Informativo = function ({ usuario, isUserLogged, setUserLogged, etapa }) {
     const history = useHistory();
 
     function proxEtapa(e, setUserLogged) {
@@ -20,7 +20,7 @@ const Informativo = function ({ usuario, isUserLogged, setUserLogged }) {
     }
 
     return (
-        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged}>
+        <Pagina title="Questionário" isUserLogged={isUserLogged} setUserLogged={setUserLogged} etapa={etapa}>
             <div style={{ display: 'grid', height: '100%' }} className="ion-justify-content-center ion-align-items-center">
                 <div className='vbox vbox-informativo'>
                     <div className='texto-informativo'>

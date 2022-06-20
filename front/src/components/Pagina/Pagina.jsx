@@ -8,7 +8,7 @@ import usuarioController from '../../services/Usuario';
 import TabPanel from '../TabPanel/TabPanel';
 import TabPanelButton from '../TabPanel/TabPanelButton';
 
-const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
+const Pagina = function ({ children, title, isUserLogged, setUserLogged, etapa }) {
     const history = useHistory(),
         modalAlterarUsuario = useRef(),
         [isModalAlterarUsuarioOpen, setIsModalAlterarUsuarioOpen] = useState(false),
@@ -107,7 +107,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged }) {
                 <IonToolbar>
                     <IonTitle>{title}</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton hidden={!isUserLogged} onClick={(e) => { setUsuarioActiveTabIndex(0); setIsModalAlterarUsuarioOpen(true) }}>
+                        <IonButton hidden={!(isUserLogged && etapa === 8)} onClick={(e) => { setUsuarioActiveTabIndex(0); setIsModalAlterarUsuarioOpen(true) }}>
                             <IonIcon slot="icon-only" icon={settingsOutline} />
                         </IonButton>
                         <IonButton hidden={!isUserLogged} onClick={(e) => doLogout(e, setUserLogged)}>
