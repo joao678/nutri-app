@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import Pagina from '../../../components/Pagina/Pagina';
 import usuarioController from '../../../services/Usuario';
 
-const debug = true;
+const debug = false;
 
 const Cadastro = function ({ isUserLogged, setUserLogged }) {
     const history = useHistory(),

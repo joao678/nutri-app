@@ -37,7 +37,7 @@ Highcharts.setOptions({
     }
 });
 
-const Home = function ({ isUserLogged, setUserLogged, usuario }) {
+const Home = function ({ isUserLogged, setUserLogged, usuario, etapa }) {
     const [options, setOptions] = useState(GraficoHomeOptions),
         [isAguaModalOpen, setIsAguaModalOpen] = useState(false),
         [isExercicioModalOpen, setIsExercicioModalOpen] = useState(false),
