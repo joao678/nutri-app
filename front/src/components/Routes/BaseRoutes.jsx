@@ -1,4 +1,4 @@
-import { Route } from "react-router";
+import { Redirect, Route } from "react-router";
 import Informativo from "../../pages/Etapas/Informativo";
 import PerguntarAltura from "../../pages/Etapas/PerguntarAltura";
 import PerguntarIdade from "../../pages/Etapas/PerguntarIdade";
@@ -17,7 +17,7 @@ import EsqueciMinhaSenhaRedefinicao from "../../pages/Login/EsqueciMinhaSenha/Es
 import Login from "../../pages/Login/Login";
 import TabelaAlimentos from "../../pages/TabelaAlimentos/TabelaAlimentos";
 
-const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
+const BaseRoutes = function ({ isUserLogged, setUserLogged, etapa }) {
     return (
         <>
             <Route exact path="/tabela-alimentos" render={() => {
@@ -25,7 +25,7 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
             }} />
 
             <Route exact path="/home" render={function ({ match, location }) {
-                return <Home usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
+                return <Home etapa={location.state.etapa} usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} />
             }} />
 
             <Route exact path="/login" render={() => {
@@ -84,10 +84,9 @@ const BaseRoutes = function ({ isUserLogged, setUserLogged }) {
             }} />
             { /* Etapas */}
 
-            {/* <Route exact path="/" render={({ match, location }) => { */}
             <Route exact path="/" render={() => {
-                //return isUserLogged ? <Home usuario={location.state.usuario} isUserLogged={isUserLogged} setUserLogged={setUserLogged} /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />;
-                return isUserLogged ? <Home isUserLogged={isUserLogged} setUserLogged={setUserLogged} /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />;
+                //return isUserLogged ? <Home etapa={etapa} isUserLogged={isUserLogged} setUserLogged={setUserLogged} /> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />;
+                return isUserLogged ? <Redirect to="/login"></Redirect> : <Login isUserLogged={isUserLogged} setUserLogged={setUserLogged} />;
             }}
             />
         </>
