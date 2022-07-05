@@ -183,8 +183,8 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged, etapa }
                             {[...listaAguaDiarios].map((agua, i) => {
                                 return <IonItem key={i}>
                                     <IonLabel>
-                                        <h2>Quantidade: {agua.quantidade}ml</h2>
-                                        <p>Data consumida: {format(new Date(agua.data_consumo), 'dd/MM/yyyy HH:mm:ss')}</p>
+                                        <h1>Quantidade: {agua.quantidade}ml</h1>
+                                        <h2>Data consumida: {format(new Date(agua.data_consumo), 'dd/MM/yyyy HH:mm:ss')}</h2>
                                     </IonLabel>
                                 </IonItem>;
                             }
@@ -194,9 +194,9 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged, etapa }
                             {[...listaAlimentoDiarios].map((alimento, i) => {
                                 return <IonItem key={i}>
                                     <IonLabel>
-                                        <h2>{alimento.descricao}</h2>
-                                        <p>Quantidade: {alimento.quantidade}g</p>
-                                        <p>Data consumida: {format(new Date(alimento.data_consumo), 'dd/MM/yyyy HH:mm:ss')}</p>
+                                        <h1>{alimento.descricao}</h1>
+                                        <h2>Quantidade: {alimento.quantidade}g</h2>
+                                        <h2>Data consumida: {format(new Date(alimento.data_consumo), 'dd/MM/yyyy HH:mm:ss')}</h2>
                                     </IonLabel>
                                 </IonItem>;
                             }
@@ -209,9 +209,9 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged, etapa }
                                 const minutos = parseInt(tempoSplit[1]);
                                 return <IonItem key={i}>
                                     <IonLabel>
-                                        <h2>{exercicio.descricao}</h2>
-                                        <p>Tempo: {horas ? `${horas} hora(s)` : ''}{horas && minutos ? ' e ': ''}{minutos ? `${minutos} minuto(s)` : ''}</p>
-                                        <p>Data consumida: {format(new Date(exercicio.data_praticada), 'dd/MM/yyyy HH:mm:ss')}</p>
+                                        <h1>{exercicio.descricao}</h1>
+                                        <h2>Tempo: {horas ? `${horas} hora(s)` : ''}{horas && minutos ? ' e ': ''}{minutos ? `${minutos} minuto(s)` : ''}</h2>
+                                        <h2>Data consumida: {format(new Date(exercicio.data_praticada), 'dd/MM/yyyy HH:mm:ss')}</h2>
                                     </IonLabel>
                                 </IonItem>;
                             }
