@@ -269,7 +269,7 @@
                       "type": "number",
                       "example": 0
                     },
-                    "get": {
+                    "_get": {
                       "type": "number",
                       "example": 0
                     },
@@ -284,7 +284,7 @@
                     "peso_ganhar",
                     "nivel_atividade",
                     "geb",
-                    "get",
+                    "_get",
                     "cal_total"
                   ]
                 },

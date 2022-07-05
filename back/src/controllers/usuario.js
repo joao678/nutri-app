@@ -257,7 +257,7 @@ const usuarioController = {
                         $peso_ganhar: 0.0,
                         $nivel_atividade: 0,
                         $geb: 0.0,
-                        $get: 0.0,
+                        $_get: 0.0,
                         $cal_total: 0.0,
                     },
                     $admin: false,
@@ -275,7 +275,7 @@ const usuarioController = {
 
             await anamnese.update(dto.anamnese);
 
-            if (usuario.data_nasc && usuario.peso && usuario.altura && usuario.sexo && anamnese.nivel_atividade) {
+            if (usuario.data_nasc && usuario.peso && usuario.altura && usuario.sexo && typeof anamnese.nivel_atividade === 'number') {
                 const idadeAnos = new Date().getFullYear() - new Date(usuario.data_nasc).getFullYear();
 
                 switch (usuario.sexo) {
@@ -289,16 +289,16 @@ const usuarioController = {
 
                 switch (anamnese.nivel_atividade) {
                     case 0:
-                        dto.anamnese.get = dto.anamnese.geb * 1.2;
+                        dto.anamnese._get = dto.anamnese.geb * 1.2;
                         break;
                     case 1:
-                        dto.anamnese.get = dto.anamnese.geb * 1.375;
+                        dto.anamnese._get = dto.anamnese.geb * 1.375;
                         break;
                     case 2:
-                        dto.anamnese.get = dto.anamnese.geb * 1.55;
+                        dto.anamnese._get = dto.anamnese.geb * 1.55;
                         break;
                     case 3:
-                        dto.anamnese.get = dto.anamnese.geb * 1.725;
+                        dto.anamnese._get = dto.anamnese.geb * 1.725;
                         break;
                 }
 
@@ -313,96 +313,3 @@ const usuarioController = {
 }
 
 export default usuarioController;
-
-// findAll: function (req, res) {
-//     /* 	#swagger.tags = ['Usuário'] */
-//     const nome = req.query.nome;
-//     var condition = nome ? { nome: { [Op.like]: `%${nome}%` } } : null;
-
-//     Marca.findAll({ where: condition }).then(data => {
-//         res.send(data);
-//     }).catch(err => {
-//         res.status(500).send({
-//             message:
-//                 err.message || "Some error occurred while retrieving Pessoas."
-//         });
-//     });
-// },
-
-// findOne: function (req, res) {
-//     /* 	#swagger.tags = ['Usuário'] */
-//     const id = req.params.id;
-
-//     Marca.findByPk(id)
-//         .then(data => {
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: "Error retrieving Pessoa with id=" + id
-//             });
-//         });
-// },
-
-// update: function (req, res) {
-//     /* 	#swagger.tags = ['Usuário'] */
-//     const id = req.params.id;
-
-//     Marca.update(req.body, {
-//         where: { id: id }
-//     })
-//         .then(num => {
-//             if (num == 1) {
-//                 res.send({
-//                     message: "Pessoa was updated successfully."
-//                 });
-//             } else {
-//                 res.send({
-//                     message: `Cannot update Pessoa with id=${id}. Maybe Pessoa was not found or req.body is empty!`
-//                 });
-//             }
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: "Error updating Pessoa with id=" + id
-//             });
-//         });
-// },
-
-// delete: function (req, res) {
-//     /* 	#swagger.tags = ['Usuário'] */
-//     const id = req.params.id;
-
-//     Marca.destroy({
-//         where: { id: id }
-//     }).then(num => {
-//         if (num == 1) {
-//             res.send({
-//                 message: "Pessoa was deleted successfully!"
-//             });
-//         } else {
-//             res.send({
-//                 message: `Cannot delete Pessoa with id=${id}. Maybe Pessoa was not found!`
-//             });
-//         }
-//     }).catch(err => {
-//         res.status(500).send({
-//             message: "Could not delete Pessoa with id=" + id
-//         });
-//     });
-// },
-
-// deleteAll: function (req, res) {
-//     /* 	#swagger.tags = ['Usuário'] */
-//     Marca.destroy({
-//         where: {},
-//         truncate: false
-//     }).then(nums => {
-//         res.send({ message: `${nums} Pessoas were deleted successfully!` });
-//     }).catch(err => {
-//         res.status(500).send({
-//             message:
-//                 err.message || "Some error occurred while removing all Pessoas."
-//         });
-//     });
-// }
