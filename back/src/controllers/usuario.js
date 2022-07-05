@@ -275,7 +275,7 @@ const usuarioController = {
 
             await anamnese.update(dto.anamnese);
 
-            if (usuario.data_nasc && usuario.peso && usuario.altura && usuario.sexo && anamnese.nivel_atividade) {
+            if (usuario.data_nasc && usuario.peso && usuario.altura && usuario.sexo && typeof anamnese.nivel_atividade === 'number') {
                 const idadeAnos = new Date().getFullYear() - new Date(usuario.data_nasc).getFullYear();
 
                 switch (usuario.sexo) {
