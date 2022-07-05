@@ -40,7 +40,8 @@ export default {
             format: '{value:.0f}/kcal',
             style: {
                 color: 'white',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                fontSize: 16
             },
         }
     },
@@ -49,7 +50,7 @@ export default {
             dataLabels: {
                 borderWidth: 0,
                 borderRadius: 0,
-                style: { textOutline: false },
+                style: { textOutline: false, fontSize: 16 },
                 color: 'white',
                 format: '{y:.2f}/kcal'
             }
