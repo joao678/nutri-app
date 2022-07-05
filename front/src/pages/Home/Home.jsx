@@ -353,8 +353,8 @@ const Home = function ({ isUserLogged, setUserLogged, usuario, etapa }) {
                 </IonContent>
             </IonModal>
 
-            <div className="vbox" style={{ height: '100%', gridTemplateRows: '1fr 1fr 0fr 1fr' }}>
-                <HighchartsReact containerProps={{ className: 'grafico-home' }} highcharts={Highcharts} options={options} />
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gridTemplateRows: '1fr 1fr 0fr 1fr' }}>
+                <HighchartsReact containerProps={{ className: 'grafico-home', style: { flex: '1' } }} highcharts={Highcharts} options={options} />
                 <div className='hbox' style={{ placeItems: 'center' }}>
                     <div className='hbox panel-generico-home panel-nutrientes' style={{ placeItems: 'center' }}>
                         <div className='panel-nutrientes-item botoes-centrais-grid-num-3'>
@@ -376,17 +376,17 @@ const Home = function ({ isUserLogged, setUserLogged, usuario, etapa }) {
                 </div>
                 <div className='vbox' style={{ placeItems: 'center', alignItems: 'start' }}>
                     <div className='hbox panel-generico-home panel-monitor-agua' style={{ gridTemplateColumns: '1fr 1fr', gap: '5px', placeItems: 'center', transform: 'scale(0.8)' }}>
-                        <div className='botoes-centrais item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
+                        <div className='item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
                             <span className='copo-liquido' style={styleCopoLiquido1}></span>
                         </div>
-                        <div className='botoes-centrais item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
+                        <div className='item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
                             <span className='copo-liquido' style={styleCopoLiquido2}></span>
                         </div>
-                        <div className='botoes-centrais item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
+                        <div className='item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
                             <span className='copo-liquido' style={styleCopoLiquido3}></span>
                         </div>
                         <div style={{ position: 'relative' }}>
-                            <div className='botoes-centrais item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
+                            <div className='item-monitor-agua botoes-centrais-grid-num-4 copo' onClick={(e) => { }}>
                                 <span className='copo-liquido' style={styleCopoLiquido4}></span>
                             </div>
                             <IonFabButton onClick={() => setIsAguaModalOpen(true)} className='fab-consumo-agua'><IonIcon icon={add}></IonIcon></IonFabButton>

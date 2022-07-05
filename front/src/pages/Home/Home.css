@@ -5,6 +5,15 @@
 }
 
 .item-monitor-agua {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    place-items: center;
+    gap: 10px;
+    cursor: pointer;
+    aspect-ratio: 1;
+    width: calc(50vw / var(--grid-num));
     max-width: 145px;
 }
 
