@@ -247,10 +247,10 @@ const Home = function ({ isUserLogged, setUserLogged, usuario, etapa }) {
         setOptions((prevState) => {
             switch (usuario.anamnese.meta) {
                 case 0:
-                    prevState.yAxis.max = parseFloat(usuario.anamnese.get) - 500;
+                    prevState.yAxis.max = parseFloat(usuario.anamnese._get) - 500;
                     break;
                 case 2:
-                    prevState.yAxis.max = parseFloat(usuario.anamnese.get) + 500;
+                    prevState.yAxis.max = parseFloat(usuario.anamnese._get) + 500;
                     break;
             }
 

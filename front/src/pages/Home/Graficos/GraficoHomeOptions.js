@@ -28,13 +28,16 @@ export default {
         lineWidth: 0,
         tickWidth: 0,
         minorTickInterval: null,
+        tickInterval: 0,
+        alignTicks: false,
         tickAmount: 0,
+        startOnTick: false,
+        endOnTick: false,
         min: 0,
-        max: 1000,
         title: { y: -70 },
         labels: {
             y: 16,
-            format: '{value}/kcal',
+            format: '{value:.0f}/kcal',
             style: {
                 color: 'white',
                 fontWeight: 'bold'
