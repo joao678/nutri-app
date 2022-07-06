@@ -211,7 +211,7 @@ const Pagina = function ({ children, title, isUserLogged, setUserLogged, etapa }
                                     <IonLabel>
                                         <h2>{exercicio.descricao}</h2>
                                         <p>Tempo: {horas ? `${horas} hora(s)` : ''}{horas && minutos ? ' e ': ''}{minutos ? `${minutos} minuto(s)` : ''}</p>
-                                        <p>Data consumida: {format(new Date(exercicio.data_praticada), 'dd/MM/yyyy HH:mm:ss')}</p>
+                                        <p>Data praticada: {format(new Date(exercicio.data_praticada), 'dd/MM/yyyy HH:mm:ss')}</p>
                                     </IonLabel>
                                 </IonItem>;
                             }
