@@ -5,7 +5,7 @@ export default function(para, assunto, corpo, cb) {
         service: 'gmail',
         auth: {
             user: 'joao678@gmail.com',
-            pass: 'zkww bvxr khqj toet'
+            pass: 'xxxx xxxx xxxx xxxx'
         }
     });
 
