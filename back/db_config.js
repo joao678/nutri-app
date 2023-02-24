@@ -1,13 +1,4 @@
 export default {
-    HOST: "localhost",
-    USER: "postgres",
-    PASSWORD: "v12fv452",
-    DB: "nutri",
-    dialect: "postgres",
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
+    dialect: "sqlite",
+    storage: './db.sqlite'
 };
